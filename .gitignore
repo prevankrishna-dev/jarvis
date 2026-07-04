@@ -1,0 +1,32 @@
+# Python virtual environment and cache
+.venv/
+venv/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node dependencies and build files (Root & UI)
+node_modules/
+jarvis-ui/node_modules/
+.next/
+jarvis-ui/.next/
+out/
+jarvis-ui/out/
+build/
+jarvis-ui/build/
+next-env.d.ts
+jarvis-ui/next-env.d.ts
+*.tsbuildinfo
+jarvis-ui/tsconfig.tsbuildinfo
+
+# Environment variables
+.env*
+jarvis-ui/.env*
+
+# OS/IDE metadata
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
