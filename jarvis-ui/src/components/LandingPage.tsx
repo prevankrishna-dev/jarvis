@@ -289,7 +289,6 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
         <nav className="flex items-center gap-6 text-sm font-medium text-zinc-400">
           <a href="#demo" className="hover:text-indigo-400 transition-colors">Interactive Demo</a>
           <a href="#solutions" className="hover:text-indigo-400 transition-colors">Target Verticals</a>
-          <a href="/antigravity" className="hover:text-indigo-300 text-indigo-400 font-bold transition-colors">Antigravity Clone</a>
           <a href="#comparison" className="hover:text-indigo-400 transition-colors">RAG Specs</a>
           
           {isLoggedIn ? (
@@ -321,11 +320,6 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
         
         {/* Left Column: Copy & Presentation */}
         <section className="lg:col-span-5 flex flex-col gap-6">
-          <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1.5 rounded-full w-fit">
-            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
-            36-Hour Hackathon Project
-          </div>
-          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight gradient-text">
             Meet Jarvis.<br />
             <span className="text-indigo-400">AI Business Intelligence</span><br />
@@ -341,19 +335,13 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <button
               onClick={isLoggedIn ? onGoToConsole : onGoToLogin}
-              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-violet-500/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo"
+              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-violet-500/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo w-full sm:w-auto"
             >
               Enter Workspace Console
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </button>
-            <a
-              href="/antigravity"
-              className="glass-panel border-indigo-500/25 hover:bg-indigo-600/5 text-indigo-300 hover:text-white px-8 py-3.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-base"
-            >
-              Antigravity Clone
-            </a>
           </div>
 
           {/* Quick Metrics */}
