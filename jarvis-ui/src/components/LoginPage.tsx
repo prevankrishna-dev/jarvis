@@ -117,11 +117,11 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#EEF0F7] text-[#111827] radial-glow grid-bg overflow-hidden flex flex-col justify-center items-center px-4">
+    <div className="dark-theme relative min-h-screen bg-zinc-950 text-zinc-100 radial-glow grid-bg overflow-hidden flex flex-col justify-center items-center px-4">
       {/* Back button */}
       <button
         onClick={onBack}
-        className="absolute top-6 left-6 text-xs text-[#374151] hover:text-[#111827] bg-white/80 border border-[#E5E7EB] hover:border-zinc-300 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer z-20 shadow-sm"
+        className="absolute top-6 left-6 text-xs text-zinc-400 hover:text-white bg-zinc-900/60 border border-white/5 hover:border-white/10 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer z-20"
       >
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -129,8 +129,8 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
         Back to Home
       </button>
       {/* Decorative Glow Shapes */}
-      <div className="absolute top-1/4 left-1/4 w-[35vw] h-[35vw] rounded-full bg-[#5B5FEF]/5 blur-[100px] pointer-events-none animate-pulse-slow" />
-      <div className="absolute bottom-1/4 right-1/4 w-[30vw] h-[30vw] rounded-full bg-[#5B5FEF]/3 blur-[100px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute top-1/4 left-1/4 w-[35vw] h-[35vw] rounded-full bg-violet-900/10 blur-[100px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute bottom-1/4 right-1/4 w-[30vw] h-[30vw] rounded-full bg-cyan-900/10 blur-[100px] pointer-events-none animate-pulse-slow" />
 
       {/* Main Container */}
       <div 
@@ -143,41 +143,41 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
           <div className="gradient-brand w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-2xl text-white shadow-xl glow-indigo mb-4 animate-float">
             J
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] font-mono flex items-center gap-2">
-            JARVIS <span className="text-xs font-sans bg-[#5B5FEF]/10 border border-[#5B5FEF]/20 text-[#5B5FEF] px-2 py-0.5 rounded-full uppercase tracking-wider">RAG Console</span>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white font-mono flex items-center gap-2">
+            JARVIS <span className="text-xs font-sans bg-violet-500/15 border border-violet-500/20 text-violet-400 px-2 py-0.5 rounded-full uppercase tracking-wider">RAG Console</span>
           </h1>
-          <p className="text-[#6B7280] text-sm mt-1 max-w-xs">
+          <p className="text-zinc-500 text-sm mt-1 max-w-xs">
             AI-Powered Business Intelligence Assistant for Compliance & Contracts
           </p>
         </div>
 
         {/* Login Form Card */}
-        <div className="glass-panel border-[#E5E7EB] shadow-2xl rounded-2xl p-6 md:p-8 relative overflow-hidden">
+        <div className="glass-panel border-white/5 shadow-2xl rounded-2xl p-6 md:p-8 relative overflow-hidden">
           {/* Top glowing bar */}
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#5B5FEF] to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
 
           {isSubmitting ? (
             <div className="py-10 flex flex-col items-center justify-center text-center">
               {/* Spinner */}
               <div className="relative w-16 h-16 mb-6">
-                <div className="absolute inset-0 rounded-full border-4 border-zinc-200" />
-                <div className="absolute inset-0 rounded-full border-4 border-[#5B5FEF] border-t-transparent animate-spin" />
+                <div className="absolute inset-0 rounded-full border-4 border-zinc-800" />
+                <div className="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
               </div>
-              <h3 className="text-lg font-semibold text-[#111827] tracking-wide">
+              <h3 className="text-lg font-semibold text-white tracking-wide">
                 Securing Workspace
               </h3>
-              <p className="text-sm text-[#374151] font-mono mt-2 animate-pulse">
+              <p className="text-sm text-zinc-400 font-mono mt-2 animate-pulse">
                 {loadingStep || "Initializing secure handshake..."}
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <h2 className="text-xl font-bold text-[#111827] mb-1">Sign In</h2>
+              <h2 className="text-xl font-bold text-white mb-1">Sign In</h2>
 
               {/* Error Alert Box */}
               {error && (
-                <div className="bg-rose-500/5 border border-rose-500/20 text-rose-600 text-sm rounded-xl p-3.5 flex items-start gap-2.5 animate-fadeIn">
-                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm rounded-xl p-3.5 flex items-start gap-2.5 animate-fadeIn">
+                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
                   <span>{error}</span>
@@ -186,11 +186,11 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
 
               {/* Username field */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider font-mono">
+                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider font-mono">
                   Username
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-400">
+                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
@@ -201,18 +201,18 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your username"
-                    className="w-full bg-white border border-[#E5E7EB] focus:border-[#5B5FEF] focus:ring-1 focus:ring-[#5B5FEF]/50 rounded-xl py-3 pl-11 pr-4 text-sm text-[#111827] placeholder-zinc-400 outline-none transition-all shadow-sm"
+                    className="w-full bg-zinc-900/60 border border-white/10 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-all"
                   />
                 </div>
               </div>
 
               {/* Password field */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider font-mono">
+                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider font-mono">
                   Password
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-400">
+                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
@@ -223,12 +223,12 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-white border border-[#E5E7EB] focus:border-[#5B5FEF] focus:ring-1 focus:ring-[#5B5FEF]/50 rounded-xl py-3 pl-11 pr-10 text-sm text-[#111827] placeholder-zinc-400 outline-none transition-all shadow-sm"
+                    className="w-full bg-zinc-900/60 border border-white/10 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 rounded-xl py-3 pl-11 pr-10 text-sm text-white placeholder-zinc-500 outline-none transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 hover:text-zinc-600 transition-colors"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors"
                   >
                     {showPassword ? (
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -248,7 +248,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
               <button
                 type="submit"
                 disabled={isAutoFilling}
-                className="w-full mt-2 gradient-brand text-white py-3 rounded-xl font-bold hover:opacity-95 shadow-md shadow-[#5B5FEF]/15 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full mt-2 gradient-brand text-white py-3 rounded-xl font-bold hover:opacity-95 shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 Launch Console
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,30 +260,30 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
         </div>
 
         {/* Demo Credentials Section */}
-        <div className="mt-6 glass-panel border-[#E5E7EB] rounded-2xl p-5 bg-white/50 flex flex-col gap-3 relative overflow-hidden">
+        <div className="mt-6 glass-panel border-white/5 rounded-2xl p-5 bg-zinc-900/30 flex flex-col gap-3 relative overflow-hidden">
           {/* Subtle decoration */}
-          <div className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-[#5B5FEF]/5 blur-xl pointer-events-none" />
+          <div className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-indigo-500/5 blur-xl pointer-events-none" />
           
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#5B5FEF] animate-pulse" />
-              <h4 className="text-xs font-semibold text-[#374151] uppercase tracking-widest font-mono">
+              <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+              <h4 className="text-xs font-semibold text-zinc-300 uppercase tracking-widest font-mono">
                 Demo Environment Credentials
               </h4>
             </div>
-            <span className="text-[10px] text-[#5B5FEF] font-mono bg-[#5B5FEF]/10 px-1.5 py-0.5 rounded border border-[#5B5FEF]/20">
+            <span className="text-[10px] text-indigo-400 font-mono bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
               One-Click
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs bg-zinc-50 border border-zinc-150 rounded-xl p-3.5 font-mono">
+          <div className="grid grid-cols-2 gap-3 text-xs bg-zinc-950/60 border border-white/5 rounded-xl p-3.5 font-mono">
             <div>
-              <span className="text-[#6B7280]">Username: </span>
-              <span className="text-[#111827] font-semibold">demo</span>
+              <span className="text-zinc-500">Username: </span>
+              <span className="text-zinc-200 font-semibold">demo</span>
             </div>
             <div>
-              <span className="text-[#6B7280]">Password: </span>
-              <span className="text-[#111827] font-semibold">demo123</span>
+              <span className="text-zinc-500">Password: </span>
+              <span className="text-zinc-200 font-semibold">demo123</span>
             </div>
           </div>
 
@@ -291,11 +291,11 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
             type="button"
             onClick={handleAutoFill}
             disabled={isSubmitting || isAutoFilling}
-            className="w-full bg-[#5B5FEF]/5 hover:bg-[#5B5FEF]/10 border border-[#5B5FEF]/20 hover:border-[#5B5FEF]/40 text-[#5B5FEF] font-semibold py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-sm"
+            className="w-full bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 hover:border-indigo-500/35 text-indigo-300 font-medium py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             {isAutoFilling ? (
               <>
-                <div className="w-3.5 h-3.5 border-2 border-[#5B5FEF] border-t-transparent rounded-full animate-spin" />
+                <div className="w-3.5 h-3.5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
                 Auto-typing credentials...
               </>
             ) : (

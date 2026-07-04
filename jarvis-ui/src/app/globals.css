@@ -123,3 +123,71 @@ body {
 .glow-cyan {
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.08);
 }
+
+/* Scoped Dark Theme overrides for Login and Console Page */
+.dark-theme {
+  --background: #0a0a0a;
+  --foreground: #f4f4f5;
+  --card-bg: rgba(20, 20, 25, 0.6);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+}
+
+.dark-theme.grid-bg,
+.dark-theme .grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.dark-theme.radial-glow,
+.dark-theme .radial-glow {
+  background: radial-gradient(circle 800px at 50% -200px, rgba(99, 102, 241, 0.15), transparent 80%);
+}
+
+.dark-theme .gradient-text {
+  background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark-theme .gradient-brand {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+}
+
+.dark-theme .gradient-brand:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+}
+
+.dark-theme .gradient-cyan {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+}
+
+.dark-theme .shimmer-bg {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+}
+
+.dark-theme .glass-panel {
+  background: #000000 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.dark-theme .glass-panel-hover:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.05);
+}
+
+.dark-theme .glow-indigo {
+  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+}
+
+.dark-theme .glow-cyan {
+  box-shadow: 0 0 40px -10px rgba(6, 182, 212, 0.3);
+}
+
