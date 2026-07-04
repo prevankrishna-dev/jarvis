@@ -264,32 +264,31 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
   const audienceData = targetAudiences.find((a) => a.id === activeAudience) || targetAudiences[0];
 
   return (
-    <div className="relative min-h-screen bg-zinc-950 text-zinc-100 radial-glow grid-bg overflow-hidden flex flex-col justify-between">
+    <div className="relative min-h-screen bg-[#EEF0F7] text-[#111827] radial-glow grid-bg overflow-hidden flex flex-col justify-between">
       {/* Glow shapes */}
-      <div className="absolute top-[-10%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-violet-900/10 blur-[120px] pointer-events-none animate-pulse-slow" />
-      <div className="absolute bottom-[10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-900/10 blur-[120px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute top-[-10%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-[#5B5FEF]/5 blur-[120px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute bottom-[10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-[#5B5FEF]/3 blur-[120px] pointer-events-none animate-pulse-slow" />
 
       {/* Navigation Top Header */}
-      <header className="sticky top-0 z-50 glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+      <header className="sticky top-0 z-50 glass-panel border-b border-[#E5E7EB] py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
           <div className="gradient-brand w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow-lg glow-indigo">
             J
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight text-white font-mono">JARVIS</span>
-              <span className="bg-violet-500/15 border border-violet-500/20 text-violet-400 text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full">
+              <span className="text-xl font-bold tracking-tight text-[#111827] font-mono">JARVIS</span>
+              <span className="bg-[#5B5FEF]/10 border border-[#5B5FEF]/20 text-[#5B5FEF] text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full">
                 RAG v1.0
               </span>
             </div>
-            <p className="text-[10px] text-zinc-500 font-mono">Vynedam Talent Hunt 2K26 · Malla Reddy Univ</p>
           </div>
         </div>
 
-        <nav className="flex items-center gap-6 text-sm font-medium text-zinc-400">
-          <a href="#demo" className="hover:text-indigo-400 transition-colors">Interactive Demo</a>
-          <a href="#solutions" className="hover:text-indigo-400 transition-colors">Target Verticals</a>
-          <a href="#comparison" className="hover:text-indigo-400 transition-colors">RAG Specs</a>
+        <nav className="flex items-center gap-6 text-sm font-medium text-[#374151]">
+          <a href="#demo" className="hover:text-[#5B5FEF] transition-colors">Interactive Demo</a>
+          <a href="#solutions" className="hover:text-[#5B5FEF] transition-colors">Target Verticals</a>
+          <a href="#comparison" className="hover:text-[#5B5FEF] transition-colors">RAG Specs</a>
           
           {isLoggedIn ? (
             <button
@@ -322,11 +321,11 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
         <section className="lg:col-span-5 flex flex-col gap-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight gradient-text">
             Meet Jarvis.<br />
-            <span className="text-indigo-400">AI Business Intelligence</span><br />
+            <span className="text-[#5B5FEF]">AI Business Intelligence</span><br />
             For Any Domain.
           </h1>
 
-          <p className="text-zinc-400 text-lg leading-relaxed max-w-xl">
+          <p className="text-[#374151] text-lg leading-relaxed max-w-xl">
             A dual-layer Retrieval-Augmented Generation (RAG) assistant designed for businesses. 
             Jarvis securely indexes your private documents and merges them with live government, compliance, 
             and web data. 
@@ -335,7 +334,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <button
               onClick={isLoggedIn ? onGoToConsole : onGoToLogin}
-              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-violet-500/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo w-full sm:w-auto"
+              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-[#5B5FEF]/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo w-full sm:w-auto"
             >
               Enter Workspace Console
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -345,45 +344,45 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           </div>
 
           {/* Quick Metrics */}
-          <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/5 mt-4">
+          <div className="grid grid-cols-3 gap-6 pt-6 border-t border-[#E5E7EB] mt-4">
             <div>
-              <p className="text-3xl font-extrabold text-white">3-Way</p>
-              <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Hybrid Retrieval</p>
+              <p className="text-3xl font-extrabold text-[#111827]">3-Way</p>
+              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Hybrid Retrieval</p>
             </div>
             <div>
-              <p className="text-3xl font-extrabold text-indigo-400">0.0ms</p>
-              <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Context Degradation</p>
+              <p className="text-3xl font-extrabold text-[#5B5FEF]">0.0ms</p>
+              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Context Degradation</p>
             </div>
             <div>
-              <p className="text-3xl font-extrabold text-cyan-400">100%</p>
-              <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Grounded Citations</p>
+              <p className="text-3xl font-extrabold text-[#5B5FEF]">100%</p>
+              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Grounded Citations</p>
             </div>
           </div>
         </section>
 
         {/* Right Column: Interactive RAG Simulation */}
         <section id="demo" className="lg:col-span-7 flex flex-col gap-6">
-          <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl relative border border-white/15">
+          <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl relative border border-[#E5E7EB]">
             {/* Window bar */}
-            <div className="bg-zinc-900/80 border-b border-white/5 px-4 py-3.5 flex justify-between items-center">
+            <div className="bg-[#E6E9F2] border-b border-[#E5E7EB] px-4 py-3.5 flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="text-xs text-zinc-500 font-mono ml-2">jarvis-rag-simulator:~</span>
+                <span className="text-xs text-[#6B7280] font-mono ml-2">jarvis-rag-simulator:~</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] text-zinc-400 font-mono">Gemini-1.5-Flash Active</span>
+                <span className="text-[10px] text-[#374151] font-mono">Gemini-1.5-Flash Active</span>
               </div>
             </div>
 
             {/* RAG Controls & Status */}
-            <div className="p-4 md:p-6 bg-zinc-950/80 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="p-4 md:p-6 bg-[#EEF0F7]/95 border-b border-[#E5E7EB] flex flex-col md:flex-row md:items-center justify-between gap-6">
               
               {/* Question selector */}
               <div className="flex-1">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider block mb-2 font-mono">
+                <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wider block mb-2 font-mono">
                   Select Question to Demo
                 </label>
                 <div className="relative">
@@ -393,7 +392,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                       const qObj = demoQuestions.find((dq) => dq.q === e.target.value);
                       if (qObj) setSelectedQuestion(qObj);
                     }}
-                    className="w-full bg-zinc-900 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 appearance-none font-sans"
+                    className="w-full bg-white border border-[#E5E7EB] text-[#111827] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-[#5B5FEF]/50 appearance-none font-sans shadow-sm"
                   >
                     {demoQuestions.map((q, idx) => (
                       <option key={idx} value={q.q}>
@@ -401,7 +400,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                       </option>
                     ))}
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-zinc-400">
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#6B7280]">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -412,11 +411,11 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
               {/* Slider for Confidence Thresholding */}
               <div className="w-full md:w-60">
                 <div className="flex justify-between items-center mb-1 font-mono">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wider">
                     Confidence Cutoff
                   </label>
                   <span className={`text-xs font-bold ${
-                    confidenceThreshold > 0.8 ? "text-red-400" : confidenceThreshold > 0.6 ? "text-yellow-400" : "text-green-400"
+                    confidenceThreshold > 0.8 ? "text-rose-600" : confidenceThreshold > 0.6 ? "text-amber-600" : "text-emerald-600"
                   }`}>
                     {confidenceThreshold.toFixed(2)}
                   </span>
@@ -428,9 +427,9 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   step="0.05"
                   value={confidenceThreshold}
                   onChange={handleThresholdChange}
-                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-[#5B5FEF]"
                 />
-                <div className="flex justify-between text-[9px] text-zinc-500 font-mono mt-1">
+                <div className="flex justify-between text-[9px] text-[#6B7280] font-mono mt-1">
                   <span>0.40 (Lenient)</span>
                   <span>0.70 (Standard)</span>
                   <span>0.95 (Strict)</span>
@@ -439,12 +438,12 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
             </div>
 
             {/* Simulated Chat Interface */}
-            <div className="p-4 md:p-6 min-h-[340px] flex flex-col justify-between gap-6 bg-zinc-950/40">
+            <div className="p-4 md:p-6 min-h-[340px] flex flex-col justify-between gap-6 bg-[#E6E9F2]/50">
               
               {/* Question bubble */}
               <div className="flex flex-col gap-2 self-end max-w-[85%]">
-                <div className="text-[10px] text-zinc-500 font-mono self-end">USER QUERY</div>
-                <div className="bg-indigo-600/90 text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm shadow-md font-sans leading-relaxed">
+                <div className="text-[10px] text-[#6B7280] font-mono self-end">USER QUERY</div>
+                <div className="bg-gradient-to-br from-[#1E1B4B] to-[#5B5FEF] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm shadow-md shadow-[#5B5FEF]/5 font-sans leading-relaxed">
                   {selectedQuestion.q}
                 </div>
               </div>
@@ -460,14 +459,14 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   const isChecked = currentStep >= step.activeStep;
                   const isCurrent = currentStep === step.activeStep - 1 && isTyping;
                   return (
-                    <div
+                     <div
                       key={idx}
                       className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs font-mono transition-all ${
                         isChecked
-                          ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                          ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
                           : isCurrent
-                          ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-300 animate-pulse"
-                          : "bg-zinc-900/50 border-white/5 text-zinc-500"
+                          ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#5B5FEF] animate-pulse"
+                          : "bg-white/40 border-[#E5E7EB] text-[#6B7280]"
                       }`}
                     >
                       {isChecked ? (
@@ -475,9 +474,9 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                       ) : isCurrent ? (
-                        <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping shrink-0" />
+                        <span className="w-2 h-2 rounded-full bg-[#5B5FEF] animate-ping shrink-0" />
                       ) : (
-                        <div className="w-3.5 h-3.5 rounded-full border border-zinc-700 shrink-0" />
+                        <div className="w-3.5 h-3.5 rounded-full border border-zinc-300 shrink-0" />
                       )}
                       <span className="truncate">{step.label}</span>
                     </div>
@@ -492,29 +491,29 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                     <span className="gradient-brand w-5 h-5 rounded-md flex items-center justify-center font-bold text-[10px] text-white">
                       J
                     </span>
-                    <span className="text-[10px] text-zinc-500 font-mono">JARVIS RAG ENGINE</span>
+                    <span className="text-[10px] text-[#6B7280] font-mono">JARVIS RAG ENGINE</span>
                   </div>
 
                   {/* Confidence Badge */}
                   {simulationComplete && (
                     <div className={`flex items-center gap-1.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                       selectedQuestion.score < confidenceThreshold
-                        ? "bg-red-500/10 border-red-500/20 text-red-400"
+                        ? "bg-rose-500/5 border-rose-500/20 text-rose-600"
                         : selectedQuestion.score >= 0.85
-                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                        : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                        ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
+                        : "bg-amber-500/5 border-amber-500/20 text-amber-600"
                     }`}>
                       Confidence: {selectedQuestion.score.toFixed(2)}
                     </div>
                   )}
                 </div>
 
-                <div className="bg-zinc-900 border border-white/5 text-zinc-200 px-5 py-4 rounded-2xl rounded-tl-sm text-sm shadow-md font-mono leading-relaxed min-h-[140px] whitespace-pre-wrap">
+                <div className="bg-white border border-[#E5E7EB] text-[#111827] px-5 py-4 rounded-2xl rounded-tl-sm text-sm shadow-md shadow-zinc-900/5 font-mono leading-relaxed min-h-[140px] whitespace-pre-wrap">
                   {isTyping ? (
-                    <div className="flex items-center gap-1 text-zinc-500 py-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:0.2s]" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:0.4s]" />
+                    <div className="flex items-center gap-1 text-[#6B7280] py-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.2s]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.4s]" />
                       <span className="ml-1 text-xs">Retrieving & generating grounded answer...</span>
                     </div>
                   ) : (
@@ -525,22 +524,22 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
 
               {/* Source Card Citation */}
               {simulationComplete && selectedQuestion.score >= confidenceThreshold && (
-                <div className="border border-white/5 bg-zinc-900/60 p-3.5 rounded-xl flex flex-col gap-2 animate-float">
-                  <div className="flex justify-between items-center border-b border-white/5 pb-1.5">
-                    <span className="text-[10px] font-bold text-indigo-400 font-mono tracking-wider uppercase">
+                <div className="border border-[#E5E7EB] bg-white p-3.5 rounded-xl flex flex-col gap-2 shadow-sm animate-float">
+                  <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1.5">
+                    <span className="text-[10px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
                       Grounding Reference Citation
                     </span>
-                    <span className="text-[9px] text-zinc-500 font-mono uppercase bg-zinc-800 px-1.5 py-0.5 rounded">
+                    <span className="text-[9px] text-[#374151] font-mono uppercase bg-zinc-100 px-1.5 py-0.5 rounded">
                       {selectedQuestion.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
                     </span>
                   </div>
                   <div className="flex gap-2.5 items-start">
-                    <svg className="w-4.5 h-4.5 text-zinc-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4.5 h-4.5 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div className="flex-1">
-                      <p className="text-xs font-bold text-white font-mono truncate">{selectedQuestion.source}</p>
-                      <p className="text-[11px] text-zinc-400 mt-1 leading-normal italic">
+                      <p className="text-xs font-bold text-[#111827] font-mono truncate">{selectedQuestion.source}</p>
+                      <p className="text-[11px] text-[#374151] mt-1 leading-normal italic bg-zinc-50/50 p-2 rounded border border-zinc-100">
                         &ldquo;{selectedQuestion.excerpt.slice(0, 140)}...&rdquo;
                       </p>
                     </div>
@@ -555,17 +554,17 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       </main>
 
       {/* Segment 2: Target Verticals (Faceted Solutions) */}
-      <section id="solutions" className="bg-zinc-950 border-y border-white/5 py-20 px-6 md:px-12 relative z-10">
+      <section id="solutions" className="bg-white border-y border-[#E5E7EB] py-20 px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col gap-12">
           
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-3">
-            <span className="text-xs font-bold text-indigo-400 tracking-widest uppercase font-mono">
+            <span className="text-xs font-bold text-[#5B5FEF] tracking-widest uppercase font-mono">
               Faceted Intelligence
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#111827]">
               One Pipeline. Infinite Verticals.
             </h2>
-            <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
+            <p className="text-[#374151] text-sm md:text-base leading-relaxed">
               Jarvis is architected to be domain-agnostic. Switching domain databases re-scopes the assistant&apos;s intelligence, supporting multiple sectors seamlessly.
             </p>
           </div>
@@ -583,12 +582,12 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                 }}
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border text-sm font-semibold transition-all text-left ${
                   activeAudience === audience.id
-                    ? "bg-indigo-600/10 border-indigo-500/40 text-indigo-300 shadow-md"
-                    : "bg-zinc-900/40 border-white/5 text-zinc-400 hover:bg-zinc-900/80 hover:text-white"
+                    ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/30 text-[#5B5FEF] shadow-sm"
+                    : "bg-white border-[#E5E7EB] text-[#374151] hover:bg-zinc-50 hover:text-[#111827]"
                 }`}
               >
                 <div className={`p-1.5 rounded-lg shrink-0 ${
-                  activeAudience === audience.id ? "bg-indigo-500/20 text-indigo-300" : "bg-zinc-800 text-zinc-500"
+                  activeAudience === audience.id ? "bg-[#5B5FEF]/10 text-[#5B5FEF]" : "bg-zinc-100 text-[#6B7280]"
                 }`}>
                   {audience.icon}
                 </div>
@@ -603,19 +602,19 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
             {/* Files list */}
             <div className="lg:col-span-5 glass-panel rounded-2xl p-6 flex flex-col gap-6">
               <div>
-                <h3 className="text-lg font-bold text-white">Dual Knowledge Bases</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">Preloaded & user documents representing this vertical</p>
+                <h3 className="text-lg font-bold text-[#111827]">Dual Knowledge Bases</h3>
+                <p className="text-xs text-[#6B7280] mt-0.5">Preloaded & user documents representing this vertical</p>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div>
-                  <h4 className="text-xs font-bold text-indigo-400 uppercase tracking-widest font-mono mb-2">
+                  <h4 className="text-xs font-bold text-[#5B5FEF] uppercase tracking-widest font-mono mb-2">
                     Public KB (Pre-indexed)
                   </h4>
                   <div className="flex flex-col gap-1.5">
                     {audienceData.publicKb.map((file, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5 text-xs text-zinc-400 bg-zinc-900/60 px-3 py-2 rounded-lg border border-white/5">
-                        <svg className="w-3.5 h-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 20 20">
+                      <div key={idx} className="flex items-center gap-2.5 text-xs text-[#374151] bg-zinc-50 px-3 py-2 rounded-lg border border-zinc-100 shadow-sm">
+                        <svg className="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6l-4-4H9z" />
                           <path d="M5 6a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-1h-2v1H5V8h1V6H5z" />
                         </svg>
@@ -626,14 +625,14 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-widest font-mono mb-2">
+                  <h4 className="text-xs font-bold text-[#5B5FEF] uppercase tracking-widest font-mono mb-2">
                     Private KB (User uploads)
                   </h4>
                   <div className="flex flex-col gap-1.5">
                     {audienceData.privateKb.map((file, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5 text-xs text-zinc-400 bg-zinc-900/60 px-3 py-2 rounded-lg border border-white/5">
-                        <svg className="w-3.5 h-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A1 1 0 0112 2.586L15.414 6A1 1 0 0116 6.586V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                      <div key={idx} className="flex items-center gap-2.5 text-xs text-[#374151] bg-zinc-50 px-3 py-2 rounded-lg border border-zinc-100 shadow-sm">
+                        <svg className="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A1 1 0 0112 2.586L15.414 6a1 1 0 011 6.586V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
                         </svg>
                         <span className="truncate">{file}</span>
                       </div>
@@ -646,8 +645,8 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
             {/* Example Queries */}
             <div className="lg:col-span-7 glass-panel rounded-2xl p-6 flex flex-col gap-6 justify-between">
               <div>
-                <h3 className="text-lg font-bold text-white">Example RAG Queries</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">Click any standard question to simulate retrieval pipeline in the terminal above</p>
+                <h3 className="text-lg font-bold text-[#111827]">Example RAG Queries</h3>
+                <p className="text-xs text-[#6B7280] mt-0.5">Click any standard question to simulate retrieval pipeline in the terminal above</p>
               </div>
 
               <div className="flex flex-col gap-3 my-4">
@@ -663,22 +662,22 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                       disabled={!match}
                       className={`text-left text-sm p-4 rounded-xl border transition-all flex items-center justify-between gap-4 ${
                         isSelected
-                          ? "bg-indigo-600/10 border-indigo-500/30 text-white"
+                          ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#111827] font-medium shadow-sm"
                           : match
-                          ? "bg-zinc-900/40 border-white/5 text-zinc-300 hover:bg-zinc-900/80 hover:text-white"
-                          : "opacity-40 cursor-not-allowed bg-zinc-900/20 border-transparent text-zinc-600"
+                          ? "bg-zinc-50 border-[#E5E7EB] text-[#374151] hover:bg-zinc-100 hover:text-[#111827]"
+                          : "opacity-40 cursor-not-allowed bg-zinc-100 border-transparent text-zinc-400"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-mono ${
-                          isSelected ? "bg-indigo-500 text-white" : "bg-zinc-800 text-zinc-500"
+                          isSelected ? "bg-indigo-600 text-white" : "bg-zinc-200 text-[#6B7280]"
                         }`}>
                           Q{idx + 1}
                         </span>
                         <span className="font-medium">{q}</span>
                       </div>
                       {match && (
-                        <div className="flex items-center gap-1.5 text-xs text-zinc-500 font-mono shrink-0">
+                        <div className="flex items-center gap-1.5 text-xs text-[#6B7280] font-mono shrink-0">
                           <span>Simulate</span>
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -690,13 +689,13 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                 })}
               </div>
 
-              <div className="bg-zinc-900/40 border border-white/5 rounded-xl p-4 flex gap-3 items-center">
-                <div className="p-2 rounded-lg bg-indigo-500/15 text-indigo-400">
+              <div className="bg-zinc-50 border border-zinc-100 rounded-xl p-4 flex gap-3 items-center shadow-sm">
+                <div className="p-2 rounded-lg bg-indigo-500/10 text-[#5B5FEF]">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="text-xs text-zinc-400 leading-normal">
+                <p className="text-xs text-[#374151] leading-normal">
                   In live-execution mode, queries are routed through a FastAPI orchestrator that extracts vectors, queries ChromaDB collections, executes Tavily search web calls, and renders answers.
                 </p>
               </div>
@@ -709,31 +708,31 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       </section>
 
       {/* Segment 3: RAG vs Standard ChatGPT comparison */}
-      <section id="comparison" className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 w-full">
+      <section id="comparison" className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 w-full bg-transparent">
         <div className="flex flex-col gap-12">
           
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-3">
-            <span className="text-xs font-bold text-indigo-400 tracking-widest uppercase font-mono">
+            <span className="text-xs font-bold text-[#5B5FEF] tracking-widest uppercase font-mono">
               Technology Justification
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#111827]">
               Why Dual RAG Beats Raw LLMs
             </h2>
-            <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
+            <p className="text-[#374151] text-sm md:text-base leading-relaxed">
               Standard LLM document analysis forgets uploads when sessions terminate and lacks real-time awareness. Jarvis implements persistent double knowledge caches.
             </p>
           </div>
 
-          <div className="glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+          <div className="glass-panel rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-xl">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="bg-zinc-900/90 border-b border-white/5 text-xs text-zinc-400 font-mono uppercase">
+                <tr className="bg-zinc-50 border-b border-[#E5E7EB] text-xs text-[#6B7280] font-mono uppercase">
                   <th className="p-4 md:p-5 font-bold">Feature Metric</th>
                   <th className="p-4 md:p-5 font-bold">Generic ChatGPT / Upload</th>
-                  <th className="p-4 md:p-5 font-bold text-white bg-indigo-600/10">Jarvis Dual RAG (Local)</th>
+                  <th className="p-4 md:p-5 font-bold text-[#111827] bg-[#5B5FEF]/5">Jarvis Dual RAG (Local)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-zinc-300">
+              <tbody className="divide-y divide-[#E5E7EB] text-[#374151]">
                 {[
                   {
                     name: "Document Persistence",
@@ -766,12 +765,12 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                     highlight: true,
                   },
                 ].map((row, idx) => (
-                  <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="p-4 md:p-5 font-semibold text-white">{row.name}</td>
-                    <td className="p-4 md:p-5 text-zinc-500">{row.gpt}</td>
+                  <tr key={idx} className="hover:bg-zinc-50/50 transition-colors">
+                    <td className="p-4 md:p-5 font-semibold text-[#111827]">{row.name}</td>
+                    <td className="p-4 md:p-5 text-[#6B7280]">{row.gpt}</td>
                     <td className={`p-4 md:p-5 font-medium ${
-                      row.highlight ? "text-indigo-300" : "text-white"
-                    } bg-indigo-600/5`}>
+                      row.highlight ? "text-[#5B5FEF] font-bold" : "text-[#111827]"
+                    } bg-[#5B5FEF]/5`}>
                       {row.jarvis}
                     </td>
                   </tr>
@@ -781,10 +780,10 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           </div>
 
           {/* Quick CTA banner */}
-          <div className="bg-gradient-to-r from-violet-900/20 to-indigo-900/20 border border-violet-500/20 rounded-2xl p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="bg-gradient-to-r from-indigo-50/20 to-indigo-100/20 border border-indigo-100/30 rounded-2xl p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 shadow-sm">
             <div className="flex flex-col gap-2">
-              <h3 className="text-xl md:text-2xl font-extrabold text-white">Ready to test the interactive workspace?</h3>
-              <p className="text-zinc-400 text-xs md:text-sm">
+              <h3 className="text-xl md:text-2xl font-extrabold text-[#111827]">Ready to test the interactive workspace?</h3>
+              <p className="text-[#374151] text-xs md:text-sm">
                 Upload business certificates, review agreements, and inspect system prompt logic in real-time.
               </p>
             </div>
@@ -803,9 +802,9 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       </section>
 
       {/* Footer */}
-      <footer className="glass-panel border-t border-white/5 py-8 px-6 text-center text-xs text-zinc-500 font-mono">
-        <p>© 2026 JARVIS BI Assistant · Vynedam Talent Hunt 2K26 · Malla Reddy University</p>
-        <p className="mt-1 text-zinc-600">Built using Next.js, FastAPI, LangChain, ChromaDB & Gemini 1.5 Flash</p>
+      <footer className="glass-panel border-t border-[#E5E7EB] py-8 px-6 text-center text-xs text-[#6B7280] font-mono">
+        <p>© 2026 JARVIS BI Assistant</p>
+        <p className="mt-1 text-[#6B7280]">Built using Next.js, FastAPI, LangChain, ChromaDB & Gemini 1.5 Flash</p>
       </footer>
     </div>
   );

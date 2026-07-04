@@ -654,18 +654,18 @@ Rules:
   };
 
   return (
-    <div className="relative min-h-screen lg:h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between overflow-y-auto lg:overflow-hidden">
+    <div className="relative min-h-screen lg:h-screen bg-[#EEF0F7] text-[#111827] flex flex-col justify-between overflow-y-auto lg:overflow-hidden">
       
       {/* Top Navbar */}
-      <header className="glass-panel border-b border-white/5 py-3 px-6 flex justify-between items-center z-20">
+      <header className="glass-panel border-b border-[#E5E7EB] py-3 px-6 flex justify-between items-center z-20">
         <div className="flex items-center gap-3">
           <div className="gradient-brand w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm text-white shadow-md">
             J
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-bold tracking-tight text-white font-mono">JARVIS CONSOLE</span>
-              <span className="bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full">
+              <span className="text-base font-bold tracking-tight text-[#111827] font-mono">JARVIS CONSOLE</span>
+              <span className="bg-[#5B5FEF]/10 border border-[#5B5FEF]/20 text-[#5B5FEF] text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full">
                 Workspace Dev
               </span>
             </div>
@@ -674,15 +674,15 @@ Rules:
 
         {/* API status row */}
         <div className="hidden lg:flex items-center gap-4 text-xs font-mono">
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
+          <div className="flex items-center gap-1.5 bg-white border border-[#E5E7EB] px-2.5 py-1 rounded-md text-emerald-600 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Gemini Flash
           </div>
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
+          <div className="flex items-center gap-1.5 bg-white border border-[#E5E7EB] px-2.5 py-1 rounded-md text-emerald-600 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Tavily Web
           </div>
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
+          <div className="flex items-center gap-1.5 bg-white border border-[#E5E7EB] px-2.5 py-1 rounded-md text-emerald-600 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             ChromaDB
           </div>
@@ -691,7 +691,7 @@ Rules:
         <div className="flex items-center gap-2">
           <button
             onClick={onGoToLanding}
-            className="text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-white/10 hover:border-white/20 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer"
+            className="text-xs text-[#374151] hover:text-[#111827] bg-white border border-[#E5E7EB] hover:border-zinc-300 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer shadow-sm"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -700,7 +700,7 @@ Rules:
           </button>
           <button
             onClick={onLogout}
-            className="text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 bg-zinc-900 border border-rose-500/20 hover:border-rose-500/40 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer"
+            className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-500/5 bg-white border border-rose-200 hover:border-rose-300 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium cursor-pointer shadow-sm"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -714,16 +714,16 @@ Rules:
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 lg:overflow-hidden h-auto lg:h-[calc(100vh-57px)]">
         
         {/* Left Sidebar: Document Explorer Tree */}
-        <aside className="lg:col-span-3 border-r border-white/5 bg-zinc-950/40 p-4 md:p-5 flex flex-col justify-between overflow-y-auto overscroll-y-contain">
+        <aside className="lg:col-span-3 border-r border-[#E5E7EB] bg-white/50 backdrop-blur-md p-4 md:p-5 flex flex-col justify-between overflow-y-auto overscroll-y-contain shadow-sm">
           
           <div className="flex flex-col gap-5">
             
             {/* Title */}
             <div>
-              <h3 className="text-xs font-bold text-white uppercase tracking-widest font-mono">
+              <h3 className="text-xs font-bold text-[#111827] uppercase tracking-widest font-mono">
                 Document Directories
               </h3>
-              <p className="text-[10px] text-zinc-500 mt-1 leading-normal">
+              <p className="text-[10px] text-[#6B7280] mt-1 leading-normal">
                 Click folders to reveal files. Click a file to reference it in your prompt context (@ tag).
               </p>
             </div>
@@ -736,12 +736,12 @@ Rules:
                   <div key={dir.id} className="flex flex-col">
                     {/* Directory Row */}
                     <button
-                      onClick={() => toggleFolder(dir.id)}
-                      className="flex items-center justify-between py-1.5 px-2 hover:bg-zinc-900/60 rounded-lg text-zinc-400 hover:text-white transition-all text-left font-medium select-none outline-none cursor-pointer"
+                       onClick={() => toggleFolder(dir.id)}
+                       className="flex items-center justify-between py-1.5 px-2 hover:bg-zinc-50 rounded-lg text-[#374151] hover:text-[#111827] transition-all text-left font-medium select-none outline-none cursor-pointer"
                     >
                       <div className="flex items-center gap-2">
                         <svg
-                          className={`w-3 h-3 text-zinc-500 transition-transform ${isExpanded ? "rotate-90" : ""}`}
+                          className={`w-3 h-3 text-zinc-400 transition-transform ${isExpanded ? "rotate-90" : ""}`}
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -753,14 +753,14 @@ Rules:
                         </svg>
                         <span className="truncate">{dir.name}</span>
                       </div>
-                      <span className="text-[8.5px] text-zinc-600 font-mono bg-zinc-900 px-1 rounded shrink-0">
+                      <span className="text-[8.5px] text-[#6B7280] font-mono bg-zinc-100 px-1 rounded shrink-0">
                         {dir.files.length}
                       </span>
                     </button>
-
+ 
                     {/* Files dropdown */}
                     {isExpanded && (
-                      <div className="flex flex-col border-l border-white/5 ml-3.5 mt-1 pl-1.5 gap-1">
+                      <div className="flex flex-col border-l border-[#E5E7EB] ml-3.5 mt-1 pl-1.5 gap-1">
                         {dir.files.map((file) => {
                           const isActive = activeFile === file.name;
                           return (
@@ -768,8 +768,8 @@ Rules:
                               key={file.name}
                               className={`flex items-center justify-between text-left rounded-md transition-all text-[10px] group border ${
                                 isActive
-                                  ? "bg-indigo-500/15 border border-indigo-500/20 text-indigo-300 font-bold"
-                                  : "text-zinc-500 hover:text-zinc-300 border-transparent hover:bg-white/5"
+                                  ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/25 text-[#5B5FEF] font-bold"
+                                  : "text-[#6B7280] hover:text-[#111827] border-transparent hover:bg-zinc-50"
                               } py-1 px-1.5 w-full`}
                             >
                               <button
@@ -782,7 +782,7 @@ Rules:
                                 }}
                                 className="flex items-center gap-1.5 truncate flex-1 cursor-pointer text-left focus:outline-none"
                               >
-                                <svg className="w-3 h-3 text-zinc-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-3 h-3 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <span className="truncate">{file.name}</span>
@@ -793,7 +793,7 @@ Rules:
                                   e.stopPropagation();
                                   handleFileSelect(file.name);
                                 }}
-                                className="opacity-40 group-hover:opacity-100 bg-zinc-800/80 hover:bg-indigo-500/30 text-zinc-400 hover:text-indigo-300 font-mono text-[9px] w-4 h-4 flex items-center justify-center rounded transition-all border border-white/5 hover:border-indigo-500/30 cursor-pointer ml-1.5 shrink-0 animate-fade-in"
+                                className="opacity-40 group-hover:opacity-100 bg-zinc-100 hover:bg-[#5B5FEF]/10 text-[#6B7280] hover:text-[#5B5FEF] font-mono text-[9px] w-4 h-4 flex items-center justify-center rounded transition-all border border-[#E5E7EB] hover:border-[#5B5FEF]/20 shadow-sm cursor-pointer ml-1.5 shrink-0 animate-fade-in"
                                 title="Reference in prompt context"
                               >
                                 @
@@ -807,15 +807,15 @@ Rules:
                 );
               })}
             </div>
-
+ 
             {/* Document Uploader integration */}
-            <div className="border-t border-white/5 pt-4">
-              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest font-mono block mb-2 px-1">
+            <div className="border-t border-[#E5E7EB] pt-4">
+              <span className="text-[9px] font-bold text-[#6B7280] uppercase tracking-widest font-mono block mb-2 px-1">
                 Upload New Document
               </span>
               <div
                 onClick={handleFileUploadClick}
-                className="border-2 border-dashed border-white/10 hover:border-indigo-500/40 bg-zinc-900/20 hover:bg-zinc-900/60 rounded-xl p-3.5 text-center cursor-pointer transition-all flex flex-col items-center gap-1.5"
+                className="border-2 border-dashed border-[#E5E7EB] hover:border-[#5B5FEF]/45 bg-white/40 hover:bg-white/95 rounded-xl p-3.5 text-center cursor-pointer transition-all flex flex-col items-center gap-1.5 shadow-sm"
               >
                 <input
                   type="file"
@@ -824,24 +824,24 @@ Rules:
                   accept=".pdf"
                   className="hidden"
                 />
-                <svg className="w-6 h-6 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <div>
-                  <p className="text-[10px] font-semibold text-zinc-300">Upload PDF</p>
-                  <p className="text-[8px] text-zinc-500 mt-0.5">Auto-embeds to active directory</p>
+                  <p className="text-[10px] font-semibold text-[#374151]">Upload PDF</p>
+                  <p className="text-[8px] text-[#6B7280] mt-0.5">Auto-embeds to active directory</p>
                 </div>
               </div>
             </div>
-
+ 
             {/* Upload status indicator */}
             {uploadProgress >= 0 && (
-              <div className="bg-zinc-900 border border-white/5 rounded-xl p-3 flex flex-col gap-1.5 font-mono text-[9px]">
+              <div className="bg-white border border-[#E5E7EB] rounded-xl p-3 flex flex-col gap-1.5 font-mono text-[9px] shadow-sm">
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-400 truncate max-w-[120px]">{uploadingFileName}</span>
-                  <span className="text-indigo-400 font-bold">{uploadProgress}%</span>
+                  <span className="text-[#374151] truncate max-w-[120px]">{uploadingFileName}</span>
+                  <span className="text-[#5B5FEF] font-bold">{uploadProgress}%</span>
                 </div>
-                <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden">
                   <div
                     className="gradient-brand h-full transition-all duration-150"
                     style={{ width: `${uploadProgress}%` }}
@@ -849,20 +849,20 @@ Rules:
                 </div>
               </div>
             )}
-
+ 
           </div>
-
-
-
+ 
+ 
+ 
         </aside>
-
+ 
         {/* Center Panel: Main Chat Workspace */}
-        <section className="lg:col-span-9 flex flex-col justify-between bg-zinc-950/20 overflow-hidden relative">
+        <section className="lg:col-span-9 flex flex-col justify-between bg-[#E6E9F2]/50 overflow-hidden relative">
           {showWelcome && (
             <div className={`absolute inset-0 flex items-center justify-center pointer-events-none z-10 transition-opacity duration-1500 ${welcomeFade ? "opacity-0" : "opacity-100"}`}>
               <SplitText
                 text="Welcome To Jarvis Workplace"
-                className="text-2xl md:text-3xl font-bold tracking-tight text-white font-mono bg-zinc-950/80 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-sm shadow-2xl"
+                className="text-2xl md:text-3xl font-bold tracking-tight text-[#111827] font-mono bg-white/90 px-6 py-3 rounded-2xl border border-[#E5E7EB] backdrop-blur-sm shadow-2xl"
                 delay={60}
                 duration={0.8}
                 ease="power3.out"
@@ -880,16 +880,16 @@ Rules:
                   key={idx}
                   className={`flex flex-col gap-1.5 ${isUser ? "self-end items-end" : "self-start items-start"} max-w-[85%]`}
                 >
-                  <div className="text-[9px] text-zinc-500 font-mono px-1">
+                  <div className="text-[9px] text-[#6B7280] font-mono px-1">
                     {isUser ? "USER" : "JARVIS CO-PILOT"} · {msg.timestamp}
                   </div>
 
                   <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${
                     isUser
-                      ? "bg-indigo-600 text-white rounded-tr-sm"
+                      ? "bg-gradient-to-br from-[#1E1B4B] to-[#5B5FEF] text-white rounded-tr-sm shadow-sm shadow-[#5B5FEF]/5"
                       : msg.isRefusal
-                      ? "bg-red-950/20 border border-red-500/25 text-red-200 rounded-tl-sm font-mono text-xs"
-                      : "bg-zinc-900 border border-white/5 text-zinc-100 rounded-tl-sm"
+                      ? "bg-rose-50/50 border border-rose-500/25 text-rose-700 rounded-tl-sm font-mono text-xs"
+                      : "bg-white border border-[#E5E7EB] text-[#111827] rounded-tl-sm shadow-md shadow-zinc-900/5"
                   }`}>
                     {msg.text}
                   </div>
@@ -897,19 +897,19 @@ Rules:
                   {/* Render citations inside chat bubble */}
                   {!isUser && msg.sources && msg.sources.length > 0 && (
                     <div className="flex flex-col gap-1.5 w-full mt-1.5">
-                      <span className="text-[9px] font-bold text-zinc-500 font-mono tracking-widest uppercase px-1">
+                      <span className="text-[9px] font-bold text-[#6B7280] font-mono tracking-widest uppercase px-1">
                         Grounded Sources Retrieved ({msg.sources.length})
                       </span>
                       <div className="grid grid-cols-1 gap-1.5">
                         {msg.sources.map((src, sidx) => (
-                          <div key={sidx} className="bg-zinc-900/80 border border-white/5 rounded-xl p-3 flex flex-col gap-1 text-xs">
+                          <div key={sidx} className="bg-white border border-[#E5E7EB] rounded-xl p-3 flex flex-col gap-1 text-xs shadow-sm">
                             <div className="flex justify-between items-center">
-                              <span className="font-bold text-indigo-400 font-mono truncate max-w-[200px]">{src.name}</span>
-                              <span className="text-[9px] text-zinc-500 font-mono">
+                              <span className="font-bold text-[#5B5FEF] font-mono truncate max-w-[200px]">{src.name}</span>
+                              <span className="text-[9px] text-[#6B7280] font-mono">
                                 Match Score: {src.score.toFixed(2)} · {src.type}
                               </span>
                             </div>
-                            <p className="text-[10px] text-zinc-400 italic bg-black/20 p-2 rounded border border-white/[0.02]">
+                            <p className="text-[10px] text-[#374151] italic bg-zinc-50/50 p-2 rounded border border-zinc-100">
                               &ldquo;{src.excerpt}&rdquo;
                             </p>
                           </div>
@@ -923,13 +923,13 @@ Rules:
 
             {isTyping && (
               <div className="self-start flex flex-col gap-1.5 max-w-[80%]">
-                <div className="text-[9px] text-zinc-500 font-mono">JARVIS CO-PILOT is retrieving context...</div>
-                <div className="bg-zinc-900 border border-white/5 p-4 rounded-2xl rounded-tl-sm text-sm">
+                <div className="text-[9px] text-[#6B7280] font-mono">JARVIS CO-PILOT is retrieving context...</div>
+                <div className="bg-white border border-[#E5E7EB] p-4 rounded-2xl rounded-tl-sm text-sm shadow-sm">
                   <div className="flex items-center gap-1.5 text-zinc-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.2s]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]" />
-                    <span className="ml-1 text-xs font-mono">Retrieving indexes & synthesizing...</span>
+                    <span className="ml-1 text-xs font-mono text-[#374151]">Retrieving indexes & synthesizing...</span>
                   </div>
                 </div>
               </div>
@@ -938,34 +938,34 @@ Rules:
           </div>
 
           {/* Bottom input area */}
-          <div className="p-4 border-t border-white/5 bg-zinc-950/95 backdrop-blur-md fixed bottom-0 right-0 w-full lg:w-[75%] z-20 flex flex-col gap-4">
+          <div className="p-4 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-md fixed bottom-0 right-0 w-full lg:w-[75%] z-20 flex flex-col gap-4 shadow-lg">
             
             {/* Quick demo prompt chips */}
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
-              <span className="text-[10px] font-bold text-zinc-500 font-mono self-center shrink-0 uppercase mr-1">
+              <span className="text-[10px] font-bold text-[#6B7280] font-mono self-center shrink-0 uppercase mr-1">
                 Demo Chips:
               </span>
               <button
                 onClick={() => handleSend("Based on my business plan, am I eligible for Startup India DPIIT recognition?")}
-                className="bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors"
+                className="bg-white hover:bg-zinc-50 border border-[#E5E7EB] text-[#374151] hover:text-[#111827] px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors shadow-sm cursor-pointer"
               >
                 DPIIT Eligibility
               </button>
               <button
                 onClick={() => handleSend("I just uploaded a vendor agreement. Are there any payment clauses that could be risky?")}
-                className="bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors"
+                className="bg-white hover:bg-zinc-50 border border-[#E5E7EB] text-[#374151] hover:text-[#111827] px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors shadow-sm cursor-pointer"
               >
                 Agreement Risk Check
               </button>
               <button
                 onClick={() => handleSend("What is the current interest rate for MUDRA Tarun loans?")}
-                className="bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors"
+                className="bg-white hover:bg-zinc-50 border border-[#E5E7EB] text-[#374151] hover:text-[#111827] px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors shadow-sm cursor-pointer"
               >
                 Live Mudra Rates
               </button>
               <button
                 onClick={() => handleSend("What compliance filings does my GST-registered business need before quarter end?")}
-                className="bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors"
+                className="bg-white hover:bg-zinc-50 border border-[#E5E7EB] text-[#374151] hover:text-[#111827] px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-colors shadow-sm cursor-pointer"
               >
                 GST Calendar
               </button>
@@ -984,12 +984,12 @@ Rules:
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 placeholder="Ask Jarvis anything about public schemes or uploaded files..."
-                className="flex-1 bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-white placeholder-zinc-500"
+                className="flex-1 bg-white border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-[#111827] placeholder-[#6B7280] shadow-sm focus:ring-1 focus:ring-indigo-500/50"
               />
               <button
                 type="submit"
                 disabled={!inputVal.trim() || isTyping}
-                className="gradient-brand disabled:opacity-50 text-white p-3 rounded-xl hover:opacity-90 shadow-md transition-all shrink-0 flex items-center justify-center"
+                className="gradient-brand disabled:opacity-50 text-white p-3 rounded-xl hover:opacity-90 shadow-md transition-all shrink-0 flex items-center justify-center cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -1000,26 +1000,25 @@ Rules:
 
         </section>
 
-        {/* Right Sidebar removed to keep layout clean */}
-
+        {/* Right Sidebar */}
         {/* Document Preview Modal */}
         {previewFile && (
-          <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[999] flex items-center justify-center p-4 md:p-6 animate-fade-in">
-            <div className="bg-zinc-900 border border-white/10 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up">
+          <div className="fixed inset-0 bg-zinc-950/40 backdrop-blur-sm z-[999] flex items-center justify-center p-4 md:p-6 animate-fade-in">
+            <div className="bg-white border border-[#E5E7EB] rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up">
               {/* Modal Header */}
-              <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-zinc-900/50 backdrop-blur-md">
+              <div className="px-6 py-4 border-b border-[#E5E7EB] flex items-center justify-between bg-zinc-50/80 backdrop-blur-md">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <svg className="w-5 h-5 text-indigo-400 shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-[#5B5FEF] shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   <div className="truncate">
-                    <h3 className="text-sm font-bold text-white font-mono truncate">{previewFile.name}</h3>
-                    <p className="text-[10px] text-zinc-500">Document Reader Context</p>
+                    <h3 className="text-sm font-bold text-[#111827] font-mono truncate">{previewFile.name}</h3>
+                    <p className="text-[10px] text-[#6B7280]">Document Reader Context</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setPreviewFile(null)}
-                  className="text-zinc-400 hover:text-white p-1 hover:bg-white/5 rounded-lg transition-all cursor-pointer"
+                  className="text-zinc-400 hover:text-[#111827] p-1 hover:bg-zinc-100 rounded-lg transition-all cursor-pointer"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1028,23 +1027,23 @@ Rules:
               </div>
 
               {/* Modal Content */}
-              <div className="flex-1 p-6 overflow-y-auto bg-zinc-950/40 custom-scrollbar">
-                <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-5 md:p-6 font-sans text-xs text-zinc-300 leading-relaxed shadow-inner">
+              <div className="flex-1 p-6 overflow-y-auto bg-[#EEF0F7]/30 custom-scrollbar">
+                <div className="bg-white border border-[#E5E7EB] rounded-xl p-5 md:p-6 font-sans text-xs text-[#374151] leading-relaxed shadow-sm">
                   {/* Mock official document look */}
-                  <div className="border-b border-white/5 pb-4 mb-4 flex flex-col md:flex-row md:justify-between md:items-start gap-2">
+                  <div className="border-b border-[#E5E7EB] pb-4 mb-4 flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                     <div>
-                      <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">{previewFile.title}</h2>
-                      <p className="text-[10px] text-zinc-500 mt-1">Author/Source: {previewFile.author}</p>
+                      <h2 className="text-sm font-bold text-[#111827] uppercase tracking-wider font-mono">{previewFile.title}</h2>
+                      <p className="text-[10px] text-[#6B7280] mt-1">Author/Source: {previewFile.author}</p>
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-400 bg-zinc-800 px-2.5 py-0.5 rounded-full shrink-0 self-start">
+                    <span className="text-[9px] font-mono text-[#374151] bg-zinc-100 px-2.5 py-0.5 rounded-full shrink-0 self-start">
                       {previewFile.date}
                     </span>
                   </div>
 
-                  <div className="prose prose-invert prose-xs max-w-none text-zinc-300 space-y-4 font-sans">
+                  <div className="prose prose-invert prose-xs max-w-none text-[#374151] space-y-4 font-sans">
                     {previewFile.content?.split('\n\n').map((paragraph, idx) => {
                       if (paragraph.startsWith('###')) {
-                        return <h3 key={idx} className="text-xs font-bold text-indigo-400 font-mono pt-2 border-b border-white/5 pb-1 mb-2">{paragraph.replace('###', '').trim()}</h3>;
+                        return <h3 key={idx} className="text-xs font-bold text-[#5B5FEF] font-mono pt-2 border-b border-[#E5E7EB] pb-1 mb-2">{paragraph.replace('###', '').trim()}</h3>;
                       }
                       if (paragraph.startsWith('-')) {
                         return (
@@ -1058,10 +1057,10 @@ Rules:
                       if (paragraph.startsWith('|')) {
                         const rows = paragraph.split('\n').filter(r => r.trim());
                         return (
-                          <div key={idx} className="overflow-x-auto my-3 border border-white/5 rounded-lg">
+                          <div key={idx} className="overflow-x-auto my-3 border border-[#E5E7EB] rounded-lg">
                             <table className="min-w-full text-[10px]">
                               <thead>
-                                <tr className="bg-zinc-900/80 text-zinc-400 border-b border-white/5">
+                                <tr className="bg-zinc-50 text-[#6B7280] border-b border-[#E5E7EB]">
                                   {rows[0].split('|').map((col, cIdx) => {
                                     const trimmed = col.trim();
                                     if (trimmed === "" && (cIdx === 0 || cIdx === rows[0].split('|').length - 1)) return null;
@@ -1069,13 +1068,13 @@ Rules:
                                   }).filter(Boolean)}
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-white/5">
+                              <tbody className="divide-y divide-[#E5E7EB]">
                                 {rows.slice(2).map((row, rIdx) => (
-                                  <tr key={rIdx} className="hover:bg-white/5">
+                                  <tr key={rIdx} className="hover:bg-zinc-50/50">
                                     {row.split('|').map((col, cIdx) => {
                                       const trimmed = col.trim();
                                       if (trimmed === "" && (cIdx === 0 || cIdx === row.split('|').length - 1)) return null;
-                                      return <td key={cIdx} className="px-3 py-2 text-zinc-300 font-mono">{trimmed}</td>;
+                                      return <td key={cIdx} className="px-3 py-2 text-[#374151] font-mono">{trimmed}</td>;
                                     }).filter(Boolean)}
                                   </tr>
                                 ))}
@@ -1091,19 +1090,19 @@ Rules:
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 border-t border-white/5 bg-zinc-900/80 flex items-center justify-between gap-3">
+              <div className="px-6 py-4 border-t border-[#E5E7EB] bg-zinc-50/80 flex items-center justify-between gap-3">
                 <button
                   onClick={() => {
                     handleFileSelect(previewFile.name);
                     setPreviewFile(null);
                   }}
-                  className="text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 hover:border-indigo-500/30 px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 font-semibold cursor-pointer"
+                  className="text-xs bg-indigo-50/5 hover:bg-indigo-50/10 text-[#5B5FEF] border border-indigo-500/20 hover:border-indigo-500/30 px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 font-semibold shadow-sm cursor-pointer"
                 >
                   <span>@ Reference in prompt</span>
                 </button>
                 <button
                   onClick={() => setPreviewFile(null)}
-                  className="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-white/5 px-4 py-2 rounded-xl transition-all font-semibold cursor-pointer"
+                  className="text-xs bg-white hover:bg-zinc-50 text-[#374151] border border-[#E5E7EB] px-4 py-2 rounded-xl transition-all font-semibold shadow-sm cursor-pointer"
                 >
                   Close
                 </button>
