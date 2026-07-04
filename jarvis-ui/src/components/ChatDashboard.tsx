@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const SplitText = dynamic(() => import("./SplitText"), { ssr: false });
 
 interface ChatDashboardProps {
   onGoToLanding: () => void;
@@ -139,14 +142,30 @@ Rules:
     });
   };
 
-  // Messages state with onboarding message
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: "jarvis",
-      text: "Welcome to the Jarvis BI Workspace! 👋\n\nI have successfully initialized the **Dual RAG Pipeline**.\n- **Public KB Collection** is loaded with government schemes and compliance guides.\n- **Private KB Collection** has your uploaded certificates and business plan indexed.\n- **Tavily Live Web Search** is active for real-time rates.\n\nHow can I help your business today? Choose a quick-demo query below or write your own.",
-      timestamp: "12:52 PM",
-    },
-  ]);
+  // Messages state (starts empty now)
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const [welcomeVisible, setWelcomeVisible] = useState(true);
+  const [welcomeFade, setWelcomeFade] = useState(false);
+
+  useEffect(() => {
+    // Start fading out after 2.5 seconds
+    const fadeTimeout = setTimeout(() => {
+      setWelcomeFade(true);
+    }, 2500);
+
+    // Completely remove from DOM after 4.0 seconds (1.5s of transition)
+    const removeTimeout = setTimeout(() => {
+      setWelcomeVisible(false);
+    }, 4000);
+
+    return () => {
+      clearTimeout(fadeTimeout);
+      clearTimeout(removeTimeout);
+    };
+  }, []);
+
+  const showWelcome = welcomeVisible && messages.length === 0;
 
   const [inputVal, setInputVal] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -386,7 +405,7 @@ Rules:
   };
 
   return (
-    <div className="relative min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between overflow-hidden">
+    <div className="relative min-h-screen lg:h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between overflow-y-auto lg:overflow-hidden">
       
       {/* Top Navbar */}
       <header className="glass-panel border-b border-white/5 py-3 px-6 flex justify-between items-center z-20">
@@ -443,10 +462,10 @@ Rules:
       </header>
 
       {/* Workspace Grid */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden h-[calc(100vh-57px)]">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 lg:overflow-hidden h-auto lg:h-[calc(100vh-57px)]">
         
         {/* Left Sidebar: Document Explorer Tree */}
-        <aside className="lg:col-span-3 border-r border-white/5 bg-zinc-950/40 p-4 md:p-5 flex flex-col justify-between overflow-y-auto">
+        <aside className="lg:col-span-3 border-r border-white/5 bg-zinc-950/40 p-4 md:p-5 flex flex-col justify-between overflow-y-auto overscroll-y-contain">
           
           <div className="flex flex-col gap-5">
             
@@ -571,9 +590,21 @@ Rules:
 
         {/* Center Panel: Main Chat Workspace */}
         <section className="lg:col-span-9 flex flex-col justify-between bg-zinc-950/20 overflow-hidden relative">
+          {showWelcome && (
+            <div className={`absolute inset-0 flex items-center justify-center pointer-events-none z-10 transition-opacity duration-1500 ${welcomeFade ? "opacity-0" : "opacity-100"}`}>
+              <SplitText
+                text="Welcome To Jarvis Workplace"
+                className="text-2xl md:text-3xl font-bold tracking-tight text-white font-mono bg-zinc-950/80 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-sm shadow-2xl"
+                delay={60}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+              />
+            </div>
+          )}
           
           {/* Scrollable messages container */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-40 md:pb-44 flex flex-col gap-6">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-40 md:pb-44 flex flex-col gap-6 overscroll-y-contain">
             {messages.map((msg, idx) => {
               const isUser = msg.sender === "user";
               return (
