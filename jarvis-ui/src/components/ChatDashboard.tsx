@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { sendChatQuery, uploadDocument, Source } from "@/lib/api";
 
 const SplitText = dynamic(() => import("./SplitText"), { ssr: false });
 
@@ -14,8 +15,8 @@ interface Message {
   sender: "user" | "jarvis";
   text: string;
   timestamp: string;
-  sources?: { name: string; excerpt: string; score: number; type: string }[];
-  confidence?: number;
+  sources?: Source[];
+  confidence?: "high" | "medium" | "low";
   isRefusal?: boolean;
 }
 
@@ -429,228 +430,155 @@ Rules:
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  // Pre-compiled answers corresponding to the demo script
-  const RAGAnswers: Record<string, Omit<Message, "sender" | "timestamp">> = {
-    "dpiit": {
-      text: "Yes, you are highly eligible for the Startup India DPIIT recognition. Based on your uploaded **sample_business_plan.pdf**, your business is incorporated as a Private Limited Company (2024, Hyderabad) with a current turnover of ₹22 Lakhs, which is well below the ₹100 Crore limit. You meet all criteria outline in the **Startup India DPIIT Guidelines**.",
-      confidence: 0.88,
-      sources: [
-        {
-          name: "Startup_India_DPIIT_Guidelines.pdf",
-          excerpt: "DPIIT recognition is open to Private Limited Companies, Registered Partnerships, and LLCs. Your business must have a turnover below ₹100 Crore and be incorporated for less than 10 years.",
-          score: 0.88,
-          type: "Public Vector DB"
-        },
-        {
-          name: "sample_business_plan.pdf",
-          excerpt: "Company Structure: Private Limited Company. Incorporation Date: Jan 12, 2024. Head Office: Hyderabad. Current Annual Turnover: ₹22,00,000.",
-          score: 0.92,
-          type: "Private Vector DB"
-        }
-      ]
-    },
-    "risk": {
-      text: "Yes, there is a high-risk clause. In **Client_Vendor_Agreement.pdf (Clause 4.2)**, the client is allowed a 90-day payment term interest-free. Under MSME regulations (Delayed Payments Act), statutory payments must be cleared within 45 days. Signing this clause waives your interest claims and harms cash flow.",
-      confidence: 0.82,
-      sources: [
-        {
-          name: "Client_Vendor_Agreement.pdf",
-          excerpt: "Clause 4.2 states: 'The Client reserves the right to delay payments up to 90 days from the invoice date without incurring interest charges...'",
-          score: 0.85,
-          type: "Private Vector DB"
-        },
-        {
-          name: "MSME_Samadhaan_Delayed_Payments_Act.pdf",
-          excerpt: "All buyers are mandated to pay MSME suppliers within 45 days. Any contract terms extending past 45 days are legally void, and penal interest of 3x RBI Bank Rate applies.",
-          score: 0.81,
-          type: "Public Vector DB"
-        }
-      ]
-    },
-    "mudra": {
-      text: "According to live data fetched from **mudra.org.in**, the interest rates for MUDRA Tarun loans (funding between ₹5 Lakhs and ₹10 Lakhs) range between **9.25% and 12.15% per annum**. This rate is floating and tied to bank-specific MCLR/RLLR, which saw a minor 0.15% increase in the last quarter.",
-      confidence: 0.94,
-      sources: [
-        {
-          name: "Tavily Live Search: mudra.org.in/rates",
-          excerpt: "MUDRA Tarun loans cover limits from ₹5 Lakhs to ₹10 Lakhs. Current interest rates depend on the lending bank, typically ranging between 9.25% to 12.15% per annum as of July 2026.",
-          score: 0.94,
-          type: "Live Web"
-        }
-      ]
-    },
-    "women": {
-      text: "Women entrepreneurs in Telangana can leverage two major programs: \n1. **CGTMSE Scheme (National)**: Offers concession on guarantee fee + 85% credit coverage. \n2. **T-PRIDE (Telangana State)**: Offers a 9% interest subsidy on capital loans and 25% investment subsidy on fixed capital.",
-      confidence: 0.79,
-      sources: [
-        {
-          name: "CGTMSE_Guidelines.pdf",
-          excerpt: "CGTMSE provides a 10% concessions on guarantee fees and guarantees up to 85% for women-led micro-enterprises.",
-          score: 0.83,
-          type: "Public Vector DB"
-        },
-        {
-          name: "T-PRIDE_Telangana_Scheme.pdf",
-          excerpt: "T-PRIDE offers 9% interest subsidy on term loans and 25% investment subsidy on fixed capital for women SC/ST entrepreneurs.",
-          score: 0.79,
-          type: "Public Vector DB"
-        }
-      ]
-    },
-    "gst": {
-      text: "Based on your **sample_gst_registration.pdf** (regular tax status), you must complete: \n1. **GSTR-1**: Filing of sales/outward supplies due on the 11th of each month. \n2. **GSTR-3B**: Tax payment & summary return due on the 20th of each month.",
-      confidence: 0.72,
-      sources: [
-        {
-          name: "GST_Compliance_Calendar.pdf",
-          excerpt: "GSTR-1 (monthly filing of outward supplies) is due on the 11th of every month. GSTR-3B (monthly summary return) is due on the 20th of the following month.",
-          score: 0.75,
-          type: "Public Vector DB"
-        },
-        {
-          name: "sample_gst_registration.pdf",
-          excerpt: "Taxpayer Type: Regular. GSTIN: 36AAAAA1111A1Z1. State Jurisdiction: Telangana.",
-          score: 0.91,
-          type: "Private Vector DB"
-        }
-      ]
-    }
-  };
-
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     if (!text.trim()) return;
-
+ 
     // Add user message
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const newUserMsg: Message = { sender: "user", text, timestamp };
     setMessages((prev) => [...prev, newUserMsg]);
     setInputVal("");
     setIsTyping(true);
-
-    // Simulate pipeline processing
-    setTimeout(() => {
-      // Find matching demo keys
-      let matchKey = "";
-      const lower = text.toLowerCase();
-      if (lower.includes("eligible") || lower.includes("dpiit") || lower.includes("startup india")) {
-        matchKey = "dpiit";
-      } else if (lower.includes("risk") || lower.includes("agreement") || lower.includes("vendor") || lower.includes("payment")) {
-        matchKey = "risk";
-      } else if (lower.includes("mudra") || lower.includes("tarun") || lower.includes("interest rate")) {
-        matchKey = "mudra";
-      } else if (lower.includes("women") || lower.includes("telangana")) {
-        matchKey = "women";
-      } else if (lower.includes("gst") || lower.includes("compliance") || lower.includes("filing")) {
-        matchKey = "gst";
-      }
-
-      let responseMsg: Message;
-      if (matchKey && RAGAnswers[matchKey]) {
-        const match = RAGAnswers[matchKey];
-        // Apply confidence threshold logic
-        if (match.confidence! < threshold) {
-          responseMsg = {
-            sender: "jarvis",
-            text: `❌ RAG Pipeline Refusal (Score: ${match.confidence} < Threshold: ${threshold})\n\n"I could not retrieve highly confident context to answer this query. To ensure safety and compliance, Jarvis has blocked this answer to prevent hallucination. Please reference the official documentation directly: [${match.sources?.[0].name}]."`,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isRefusal: true,
-            sources: match.sources,
-            confidence: match.confidence,
-          };
-        } else if (threshold > 0.5 && match.confidence! < threshold + 0.15) {
-          responseMsg = {
-            sender: "jarvis",
-            text: `⚠️ Disclaimer Required (Score: ${match.confidence} / Threshold: ${threshold})\n\n"${match.text}"\n\n[Caution] Please verify this with the official source before making business decisions.`,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            sources: match.sources,
-            confidence: match.confidence,
-          };
-        } else {
-          responseMsg = {
-            sender: "jarvis",
-            text: match.text,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            sources: match.sources,
-            confidence: match.confidence,
-          };
-        }
-      } else {
-        // Fallback for random questions
-        responseMsg = {
-          sender: "jarvis",
-          text: `🔍 Simulated Query Search (ChromaDB + Tavily Web)\n\n"I searched the public and private databases for '${text}', but found no matching documents. \n\nTo answer this query, please ensure you have uploaded the relevant PDFs containing the text. Since no high-confidence embeddings match (Score < ${threshold}), I am declining to answer to prevent hallucination."`,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          confidence: 0.32,
-          isRefusal: true,
-        };
-      }
-
+ 
+    try {
+      const response = await sendChatQuery(text, "default_business", threshold);
+      const isRefusal = response.confidence === "low";
+      const jarvisMsg: Message = {
+        sender: "jarvis",
+        text: response.answer,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        sources: response.sources,
+        confidence: response.confidence,
+        isRefusal
+      };
+      setMessages((prev) => [...prev, jarvisMsg]);
+    } catch (err) {
+      console.error(err);
+      const errorMsg: Message = {
+        sender: "jarvis",
+        text: `❌ Error communicating with backend: ${err instanceof Error ? err.message : String(err)}`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        confidence: "low",
+        isRefusal: true
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
       setIsTyping(false);
-      setMessages((prev) => [...prev, responseMsg]);
-    }, 1800);
+    }
   };
 
+  const [isDragging, setIsDragging] = useState(false);
+ 
   const handleFileUploadClick = () => {
     fileInputRef.current?.click();
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+ 
+  const handleUploadFile = async (file: File) => {
     if (!file) return;
-
+ 
     setUploadingFileName(file.name.toLowerCase());
     setUploadProgress(0);
-
-    // Simulate progress upload & indexing in ChromaDB
-    const interval = setInterval(() => {
+ 
+    // Simulate visual progress update
+    const progressInterval = setInterval(() => {
       setUploadProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            // Add file to privateDocs
-            const newDoc: PrivateDoc = {
-              name: file.name.toLowerCase(),
-              size: `${(file.size / 1024).toFixed(0)} KB`,
-              status: "ready",
-              uploadedAt: "Just now",
-            };
-            setPrivateDocs((prevDocs) => [newDoc, ...prevDocs]);
-
-            // Add file to document directories dynamically
-            const isCert = file.name.toLowerCase().includes("cert") || file.name.toLowerCase().includes("registration") || file.name.toLowerCase().includes("udyam");
-            const targetFolderId = isCert ? "certificates" : "confidential";
-            setDocumentDirectories((prevDirs) =>
-              prevDirs.map((dir) => {
-                if (dir.id === targetFolderId) {
-                  return {
-                    ...dir,
-                    files: [
-                      { name: file.name.toLowerCase(), size: `${(file.size / 1024).toFixed(0)} KB` },
-                      ...dir.files
-                    ]
-                  };
-                }
-                return dir;
-              })
-            );
-            
-            // Add alert message in chat
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            setMessages((prevMsgs) => [
-              ...prevMsgs,
-              {
-                sender: "jarvis",
-                text: `📂 **File Indexed Successfully**\n- Document: \`${file.name.toLowerCase()}\`\n- Vector Database: \`private_kb\`\n- Chunking Policy: \`${chunkSize} char size / ${chunkOverlap} overlap\`\n- Status: \`100% Embedded\`\n\nI have chunked and embedded this document. You can now ask questions about its content!`,
-                timestamp,
-              },
-            ]);
-            setUploadProgress(-1);
-          }, 300);
-          return 100;
-        }
+        if (prev >= 90) return 90;
         return prev + 10;
       });
-    }, 150);
+    }, 100);
+ 
+    try {
+      const response = await uploadDocument(file, "default_business");
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+ 
+      // Add file to privateDocs state
+      const newDoc: PrivateDoc = {
+        name: file.name.toLowerCase(),
+        size: `${(file.size / 1024).toFixed(0)} KB`,
+        status: "ready",
+        uploadedAt: "Just now",
+      };
+      setPrivateDocs((prevDocs) => [newDoc, ...prevDocs]);
+ 
+      // Add file to document directories dynamically
+      const isCert = file.name.toLowerCase().includes("cert") || file.name.toLowerCase().includes("registration") || file.name.toLowerCase().includes("udyam");
+      const targetFolderId = isCert ? "certificates" : "confidential";
+      setDocumentDirectories((prevDirs) =>
+        prevDirs.map((dir) => {
+          if (dir.id === targetFolderId) {
+            return {
+              ...dir,
+              files: [
+                { name: file.name.toLowerCase(), size: `${(file.size / 1024).toFixed(0)} KB` },
+                ...dir.files
+              ]
+            };
+          }
+          return dir;
+        })
+      );
+ 
+      // Add alert message in chat
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setMessages((prevMsgs) => [
+        ...prevMsgs,
+        {
+          sender: "jarvis",
+          text: `📂 **Document Indexed Successfully**\n- Document: \`${file.name.toLowerCase()}\`\n- Vector Database: \`private_kb\`\n- Status: \`${response.message}\`\n\nI have successfully chunked and embedded this document. You can now ask questions about its content!`,
+          timestamp,
+          confidence: "high"
+        },
+      ]);
+    } catch (err) {
+      clearInterval(progressInterval);
+      setUploadProgress(-1);
+      console.error(err);
+      
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setMessages((prevMsgs) => [
+        ...prevMsgs,
+        {
+          sender: "jarvis",
+          text: `❌ **Failed to index document**\n- Document: \`${file.name.toLowerCase()}\`\n- Error: ${err instanceof Error ? err.message : String(err)}`,
+          timestamp,
+          confidence: "low",
+          isRefusal: true
+        },
+      ]);
+    } finally {
+      setTimeout(() => setUploadProgress(-1), 1000);
+    }
+  };
+ 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleUploadFile(file);
+    }
+  };
+ 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+ 
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+ 
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+ 
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type === "application/pdf") {
+      handleUploadFile(file);
+    }
   };
 
   return (
@@ -815,7 +743,15 @@ Rules:
               </span>
               <div
                 onClick={handleFileUploadClick}
-                className="border-2 border-dashed border-white/10 hover:border-indigo-500/40 bg-zinc-900/20 hover:bg-zinc-900/60 rounded-xl p-3.5 text-center cursor-pointer transition-all flex flex-col items-center gap-1.5"
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`border-2 border-dashed rounded-xl p-3.5 text-center cursor-pointer transition-all flex flex-col items-center gap-1.5 ${
+                  isDragging
+                    ? "border-indigo-500 bg-indigo-500/10 shadow-lg scale-[1.02]"
+                    : "border-white/10 hover:border-indigo-500/40 bg-zinc-900/20 hover:bg-zinc-900/60"
+                }`}
               >
                 <input
                   type="file"
@@ -824,12 +760,14 @@ Rules:
                   accept=".pdf"
                   className="hidden"
                 />
-                <svg className="w-6 h-6 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-6 h-6 transition-colors ${isDragging ? "text-indigo-400 animate-bounce" : "text-zinc-500"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <div>
-                  <p className="text-[10px] font-semibold text-zinc-300">Upload PDF</p>
-                  <p className="text-[8px] text-zinc-500 mt-0.5">Auto-embeds to active directory</p>
+                  <p className="text-[10px] font-semibold text-zinc-300">
+                    {isDragging ? "Drop PDF Here" : "Upload PDF"}
+                  </p>
+                  <p className="text-[8px] text-zinc-500 mt-0.5">Drag-and-drop or select file</p>
                 </div>
               </div>
             </div>
@@ -880,10 +818,21 @@ Rules:
                   key={idx}
                   className={`flex flex-col gap-1.5 ${isUser ? "self-end items-end" : "self-start items-start"} max-w-[85%]`}
                 >
-                  <div className="text-[9px] text-zinc-500 font-mono px-1">
-                    {isUser ? "USER" : "JARVIS CO-PILOT"} · {msg.timestamp}
+                  <div className="text-[9px] text-zinc-500 font-mono px-1 flex items-center gap-2">
+                    <span>{isUser ? "USER" : "JARVIS CO-PILOT"} · {msg.timestamp}</span>
+                    {!isUser && msg.confidence && (
+                      <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-bold border ${
+                        msg.confidence === "high"
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                          : msg.confidence === "medium"
+                          ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                          : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                      }`}>
+                        {msg.confidence} confidence
+                      </span>
+                    )}
                   </div>
-
+ 
                   <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${
                     isUser
                       ? "bg-indigo-600 text-white rounded-tr-sm"
@@ -893,7 +842,7 @@ Rules:
                   }`}>
                     {msg.text}
                   </div>
-
+ 
                   {/* Render citations inside chat bubble */}
                   {!isUser && msg.sources && msg.sources.length > 0 && (
                     <div className="flex flex-col gap-1.5 w-full mt-1.5">
@@ -904,9 +853,23 @@ Rules:
                         {msg.sources.map((src, sidx) => (
                           <div key={sidx} className="bg-zinc-900/80 border border-white/5 rounded-xl p-3 flex flex-col gap-1 text-xs">
                             <div className="flex justify-between items-center">
-                              <span className="font-bold text-indigo-400 font-mono truncate max-w-[200px]">{src.name}</span>
+                              {src.url ? (
+                                <a
+                                  href={src.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-bold text-indigo-400 hover:text-indigo-300 font-mono truncate max-w-[220px] underline flex items-center gap-1 cursor-pointer"
+                                >
+                                  {src.name}
+                                  <svg className="w-2.5 h-2.5 inline shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                  </svg>
+                                </a>
+                              ) : (
+                                <span className="font-bold text-indigo-400 font-mono truncate max-w-[220px]">{src.name}</span>
+                              )}
                               <span className="text-[9px] text-zinc-500 font-mono">
-                                Match Score: {src.score.toFixed(2)} · {src.type}
+                                Match Score: {src.score.toFixed(2)}
                               </span>
                             </div>
                             <p className="text-[10px] text-zinc-400 italic bg-black/20 p-2 rounded border border-white/[0.02]">
@@ -920,16 +883,36 @@ Rules:
                 </div>
               );
             })}
-
+ 
             {isTyping && (
-              <div className="self-start flex flex-col gap-1.5 max-w-[80%]">
-                <div className="text-[9px] text-zinc-500 font-mono">JARVIS CO-PILOT is retrieving context...</div>
-                <div className="bg-zinc-900 border border-white/5 p-4 rounded-2xl rounded-tl-sm text-sm">
-                  <div className="flex items-center gap-1.5 text-zinc-400">
+              <div className="self-start flex flex-col gap-2 w-full max-w-[80%]">
+                <div className="text-[9px] text-zinc-500 font-mono px-1 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                  JARVIS CO-PILOT is retrieving context...
+                </div>
+                <div className="bg-zinc-900/60 border border-white/5 p-4 rounded-2xl rounded-tl-sm w-full flex flex-col gap-3">
+                  {/* Bouncing dots */}
+                  <div className="flex items-center gap-1.5 text-zinc-400 text-xs font-mono mb-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.2s]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]" />
-                    <span className="ml-1 text-xs font-mono">Retrieving indexes & synthesizing...</span>
+                    <span className="ml-1 text-[10px]">Retrieving indexes & synthesizing...</span>
+                  </div>
+                  
+                  {/* Visual Skeleton Bars */}
+                  <div className="flex flex-col gap-2">
+                    <div className="h-3 w-[90%] bg-zinc-800 shimmer-bg rounded-md" />
+                    <div className="h-3 w-[95%] bg-zinc-800 shimmer-bg rounded-md" />
+                    <div className="h-3 w-[60%] bg-zinc-800 shimmer-bg rounded-md" />
+                  </div>
+                  
+                  {/* Sources Skeleton */}
+                  <div className="mt-2 border-t border-white/5 pt-3 flex flex-col gap-2">
+                    <div className="h-2.5 w-[30%] bg-zinc-800 shimmer-bg rounded-md" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="h-10 bg-zinc-800/80 shimmer-bg rounded-xl border border-white/[0.02]" />
+                      <div className="h-10 bg-zinc-800/80 shimmer-bg rounded-xl border border-white/[0.02]" />
+                    </div>
                   </div>
                 </div>
               </div>
