@@ -26,6 +26,248 @@ interface PrivateDoc {
   uploadedAt: string;
 }
 
+const DOCUMENT_PREVIEWS: Record<string, { title: string; date: string; author: string; content: string }> = {
+  "startup_india_dpiit_guidelines.pdf": {
+    title: "Startup India DPIIT Recognition & Tax Exemptions Guidelines",
+    date: "Revised 2024",
+    author: "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    content: `### 1. Eligibility Criteria for Recognition
+- **Company Type**: Must be incorporated as a Private Limited Company, Registered Partnership Firm, or Limited Liability Partnership (LLP).
+- **Age of Startup**: Period of existence and operations should not exceed 10 years from the date of incorporation.
+- **Turnover Limit**: Annual turnover of the entity for any of the financial years since incorporation/registration has not exceeded INR 100 Crore.
+- **Innovation & Scalability**: The entity should be working towards innovation, development or improvement of products or processes or services, or have a scalable business model with high potential of employment generation or wealth creation.
+
+### 2. Benefits of DPIIT Recognition
+- **Income Tax Exemption**: Eligible for 3-year tax holiday under Section 80-IAC.
+- **Self-Certification**: Self-certify compliance with 6 labour laws and 3 environmental laws.
+- **Easy Winding Up**: Fast-track exit for startups within 90 days under Insolvency and Bankruptcy Code.
+- **IPR Support**: Up to 80% rebate in patent filing and 50% rebate in trademark filing.`
+  },
+  "mudra_loan_scheme_details.pdf": {
+    title: "Pradhan Mantri MUDRA Yojana (PMMY) Scheme Details",
+    date: "Updated FY 2024-25",
+    author: "Ministry of Finance, Government of India",
+    content: `### 1. Loan Categories
+- **Shishu**: Loans up to INR 50,000 (designed for startup and entry-stage entrepreneurs).
+- **Kishor**: Loans from INR 50,000 up to INR 5 Lakh (designed for existing businesses looking for expansion phase).
+- **Tarun**: Loans from INR 5 Lakh up to INR 10 Lakh (designed for established businesses requiring larger capital injection).
+
+### 2. General Terms & Conditions
+- **Collateral**: No collateral security is required for MUDRA loans.
+- **Tenure**: Repayment period ranges from 3 to 5 years depending on cash flows.
+- **Interest Rate**: Determined by the bank based on MCLR and credit profile, typically between 8.5% to 12% p.a.
+- **Purpose**: Working capital, machinery purchase, business expansion, and business vehicles.`
+  },
+  "cgtmse_credit_guarantee_guide.pdf": {
+    title: "Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)",
+    date: "June 2024 Update",
+    author: "CGTMSE Trust / SIDBI",
+    content: `### 1. Core Objective
+Provides collateral-free credit facilities to Micro and Small Enterprises (MSEs) by offering guarantee coverage for loans.
+
+### 2. Eligibility & Coverage
+- **Eligible Borrowers**: New and existing Micro and Small Enterprises. Retail trade, educational institutions, and training centers are also eligible.
+- **Max Loan Limit**: Guarantee coverage up to INR 5 Crore per borrower.
+- **Guarantee Cover**:
+  - Up to 85% for Micro Enterprises (loans up to INR 5 Lakh).
+  - Up to 75% for default loan amounts between INR 5 Lakh and INR 5 Crore.
+  - Up to 85% for women entrepreneurs, SC/ST, and units in North East Region.`
+  },
+  "gst_compliance_calendar.pdf": {
+    title: "GST Compliance & Tax Filings Calendar",
+    date: "FY 2024-2025",
+    author: "Goods and Services Tax Network (GSTN)",
+    content: `### Monthly Compliance Schedule
+- **GSTR-1 (Outward Supplies)**: Due by the 11th of the succeeding month for regular taxpayers.
+- **GSTR-3B (Summary Return & Tax Payment)**: Due by the 20th of the succeeding month.
+- **GSTR-2B (Auto-drafted ITC statement)**: Generated on the 14th of every month.
+
+### Quarterly Compliance Schedule
+- **QRMP Scheme**: GSTR-1 and GSTR-3B filed quarterly; tax paid monthly via CMP-08 by the 18th of the month following the quarter.
+- **GSTR-4 (Composition Taxpayers)**: Annual return due by 30th April of the next FY.`
+  },
+  "client_vendor_agreement.pdf": {
+    title: "Master Services Agreement (MSA) - Client & Vendor",
+    date: "Executed Jan 15, 2024",
+    author: "Legal Dept, Jarvis Tech Solutions",
+    content: `### Summary of Key Terms
+- **Scope of Services**: Software development, API integrations, and ongoing support services.
+- **Intellectual Property**: All deliverables created by the Vendor under this Agreement shall belong solely to the Client upon full payment.
+- **Payment Terms**: Invoice sent monthly; Payment due Net 30 days from date of receipt of invoice.
+- **Confidentiality**: Active for the duration of the Agreement and 3 years post-termination.
+- **Limitation of Liability**: Capped at the total amount paid by Client to Vendor in the 6 months preceding the claim.`
+  },
+  "fictional_founder_mou.pdf": {
+    title: "Founder Memorandum of Understanding (MOU)",
+    date: "Signed Jan 10, 2024",
+    author: "Co-Founders (Rahul S. & Priyan K.)",
+    content: `### 1. Equity Distribution
+- **Rahul S. (CEO)**: 52% Equity Share.
+- **Priyan K. (CTO)**: 48% Equity Share.
+
+### 2. Vesting & Cliff
+- **Vesting Period**: 4 years monthly vesting.
+- **Cliff Period**: 1-year cliff. No shares shall vest if a founder exits within 12 months.
+
+### 3. Roles and Intellectual Property
+All intellectual property created during the operations of the startup belongs fully to the registered corporate entity.`
+  },
+  "standard_nda_template.pdf": {
+    title: "Mutual Non-Disclosure Agreement (NDA)",
+    date: "Template V2",
+    author: "Internal Legal Council",
+    content: `### Confidentiality Obligations
+- **Definition**: Confidential Information includes technical data, trade secrets, business plans, customer lists, and financial projections.
+- **Standard of Care**: Receiving Party agrees to use the same degree of care to prevent disclosure as it uses for its own confidential data (no less than reasonable care).
+- **Term**: This Agreement shall remain in effect for 3 years from the date of disclosure.`
+  },
+  "q3_outstanding_invoices.pdf": {
+    title: "Q3 Outstanding Invoices & Accounts Receivable Summary",
+    date: "As of October 1, 2024",
+    author: "Finance & Accounts Team",
+    content: `### Aging Accounts Receivable Report
+| Invoice ID | Client Name | Amount (INR) | Due Date | Overdue Days | Status |
+|---|---|---|---|---|---|
+| INV-2024-89 | Glorx Digital | 1,50,000 | Sep 15, 2024 | 15 days | Pending |
+| INV-2024-91 | Initech Corp | 2,10,000 | Aug 30, 2024 | 31 days | Follow-up |
+| INV-2024-95 | Hooli Services | 1,20,000 | Jul 15, 2024 | 77 days | Escalated |
+
+**Total Outstanding Receivables**: INR 4,80,000`
+  },
+  "annual_turnover_report.pdf": {
+    title: "Annual Financial Turnover & Revenue Report",
+    date: "FY 2023-24",
+    author: "Certified Chartered Accountant",
+    content: `### Executive Financial Summary
+- **Gross Revenue**: INR 22,15,400 (from consulting and platform services)
+- **Direct Costs (COGS)**: INR 6,45,000
+- **Gross Profit**: INR 15,70,400
+- **Operational Expenses**: INR 8,12,000
+- **Net Profit before Tax**: INR 7,58,400
+- **Year-on-Year Growth**: +42.5% compared to FY 2022-23.`
+  },
+  "sample_udyam_certificate.pdf": {
+    title: "Udyam Registration Certificate - Ministry of MSME",
+    date: "Issued March 14, 2024",
+    author: "Govt of India, Ministry of Micro, Small and Medium Enterprises",
+    content: `### Certificate Details
+- **Udyam Registration Number**: UDYAM-TS-02-00984321
+- **Name of Enterprise**: Jarvis Tech Solutions Private Limited
+- **Major Activity**: Service Provider (IT Consulting & Software Development)
+- **Enterprise Classification**: **MICRO Enterprise** (based on turnover and investment limits).
+- **Date of Incorporation**: January 12, 2024`
+  },
+  "sample_gst_registration.pdf": {
+    title: "GST Registration Certificate (Form GST REG-06)",
+    date: "Issued January 20, 2024",
+    author: "Goods and Services Tax Department, Government of India",
+    content: `### GSTIN Information
+- **GSTIN**: 36AAFJC8742N1Z9
+- **Legal Name**: Jarvis Tech Solutions Private Limited
+- **Trade Name**: Jarvis AI
+- **Constitution of Business**: Private Limited Company
+- **Principal Place of Business**: H.No 4-12, Gachibowli Financial District, Hyderabad, Telangana, 500032.
+- **Date of Liability**: January 20, 2024`
+  },
+  "sample_business_plan.pdf": {
+    title: "Strategic Business Plan & Financial Model - V1.4",
+    date: "Compiled February 2024",
+    author: "Management Board, Jarvis AI",
+    content: `### 1. Executive Summary
+Jarvis AI is a SaaS platform providing unified RAG assistant capability for MSMEs to query their business context, policies, and files.
+
+### 2. Operating Metrics
+- **Headquarters**: Hyderabad, India.
+- **Team Size**: 5 Full-Time Employees.
+- **Projected Sales (Year 1)**: INR 22 Lakhs.
+- **Target Audience**: Micro & Small Enterprises, freelancers, legal consultants.`
+  },
+  "invoices_glorx_digital_q3.pdf": {
+    title: "Commercial Invoice - Glorx Digital Q3 Billing",
+    date: "Invoice Date: September 15, 2024",
+    author: "Finance Dept, Jarvis Tech Solutions",
+    content: `### Invoice Details (INV-2024-89)
+- **Billing To**: Glorx Digital Services Ltd, Bengaluru.
+- **Services Rendered**: Consulting and custom API deployment.
+- **Amount Due**: INR 1,50,000 (inclusive of CGST/SGST @ 18%).
+- **Payment Method**: Bank Transfer to HDFC Bank A/c 50200045237890.
+- **Status**: Overdue as of Oct 1, 2024.`
+  },
+  "supplier_invoice_tatasteel.pdf": {
+    title: "Supplier Purchase Invoice - Tata Steel Ltd",
+    date: "August 22, 2024",
+    author: "Tata Steel Accounts Team",
+    content: `### Invoice Details (INV-TS-99238)
+- **Billing From**: Tata Steel Limited, Jamshedpur Office.
+- **Item**: Structural Steel & Reinforcement Beams (Quantity: 4 Metric Tons).
+- **Subtotal**: INR 2,71,186
+- **Tax (IGST @ 18%)**: INR 48,814
+- **Grand Total**: INR 3,20,000
+- **Status**: Paid in full on August 28, 2024.`
+  },
+  "noc_municipal_corporation.pdf": {
+    title: "No Objection Certificate (NOC) for Commercial Operations",
+    date: "Issued April 10, 2024",
+    author: "Greater Hyderabad Municipal Corporation (GHMC)",
+    content: `### Compliance Clearance
+- **Applicant**: Jarvis Tech Solutions Private Limited
+- **Facility Address**: Gachibowli Financial District, Hyderabad.
+- **Clearance Scope**: Building structural safety, fire safety compliance, and environmental sanitation check.
+- **Validity**: Expires April 9, 2029 (5-year validity).`
+  },
+  "board_resolution_2024.pdf": {
+    title: "Certified Board Resolution - Bank Operations & Borrowings",
+    date: "Meeting Date: February 5, 2024",
+    author: "Board of Directors, Jarvis Tech Solutions",
+    content: `### Resolution Details
+- **Passed by**: Unanimous consent of the Board of Directors.
+- **Resolution**: Resolved that the Company open a Cash Credit / Current Account with State Bank of India.
+- **Authorized Signatories**: Rahul S. (CEO) and Priyan K. (CTO) are jointly and severally authorized to sign documents, execute loan applications, and execute transactions on behalf of the company up to INR 50 Lakhs.`
+  },
+  "sidbi_msme_loan_app.pdf": {
+    title: "SIDBI Direct Credit Scheme - Loan Application Form",
+    date: "Submitted April 18, 2024",
+    author: "Jarvis Tech Solutions / SIDBI Portal",
+    content: `### Loan Application Form (Ref: SIDBI-2024-MSME-984)
+- **Lender**: Small Industries Development Bank of India (SIDBI).
+- **Loan Scheme**: Direct Credit for Plant, Machinery, and Technology Upgradation.
+- **Requested Principal Amount**: INR 15,000,000 (INR 15 Lakhs).
+- **Collateral Proposed**: Primary security of machinery purchased, plus secondary personal guarantees of co-founders.`
+  },
+  "tarun_mudra_sanction_letter.pdf": {
+    title: "MUDRA Tarun Scheme - Credit Sanction Letter",
+    date: "Dated June 12, 2024",
+    author: "State Bank of India, SME Branch Hyderabad",
+    content: `### Sanction Terms (Ref: SBI-MUDRA-TARUN-459)
+- **Borrower**: Jarvis Tech Solutions Private Limited.
+- **Sanctioned Amount**: INR 8,50,000 (INR 8.5 Lakhs).
+- **Interest Rate**: 9.25% floating rate (linked to 1-year MCLR).
+- **Tenure**: 60 Equated Monthly Instalments (EMIs).
+- **Repayment Terms**: Automated debit starting July 2024.`
+  }
+};
+
+const getPreviewData = (fileName: string) => {
+  const normalized = fileName.toLowerCase();
+  if (DOCUMENT_PREVIEWS[normalized]) {
+    return DOCUMENT_PREVIEWS[normalized];
+  }
+  return {
+    title: fileName,
+    date: "Just uploaded",
+    author: "User Indexed Document",
+    content: `### Document Indexed Successfully
+This document (\`${fileName}\`) was uploaded by the user and successfully chunked and embedded in the **private_kb** collection in ChromaDB.
+
+### Document Content Preview
+- **File Name**: ${fileName}
+- **Access Status**: 100% Vectorized
+- **Vector Dimension**: 768 (Gemini Embeddings)
+
+The contents of this document are now available for contextual question-answering in the Jarvis Console.`
+  };
+};
+
 export default function ChatDashboard({ onGoToLanding, onLogout }: ChatDashboardProps) {
   // Config states
   const [googleApiKey, setGoogleApiKey] = useState("AIzaSyD-mockKey-123456789");
@@ -63,6 +305,13 @@ Rules:
   });
 
   const [activeFile, setActiveFile] = useState<string>("");
+  const [previewFile, setPreviewFile] = useState<{
+    name: string;
+    title?: string;
+    date?: string;
+    author?: string;
+    content?: string;
+  } | null>(null);
 
   const toggleFolder = (folderId: string) => {
     setExpandedFolders((prev) => ({
@@ -515,22 +764,41 @@ Rules:
                         {dir.files.map((file) => {
                           const isActive = activeFile === file.name;
                           return (
-                            <button
+                            <div
                               key={file.name}
-                              onClick={() => handleFileSelect(file.name)}
-                              className={`flex items-center justify-between text-left py-1 px-1.5 hover:bg-white/5 rounded-md transition-all text-[10px] group cursor-pointer ${
+                              className={`flex items-center justify-between text-left rounded-md transition-all text-[10px] group border ${
                                 isActive
                                   ? "bg-indigo-500/15 border border-indigo-500/20 text-indigo-300 font-bold"
-                                  : "text-zinc-500 hover:text-zinc-300 border border-transparent"
-                              }`}
+                                  : "text-zinc-500 hover:text-zinc-300 border-transparent hover:bg-white/5"
+                              } py-1 px-1.5 w-full`}
                             >
-                              <div className="flex items-center gap-1.5 truncate">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setPreviewFile({
+                                    name: file.name,
+                                    ...getPreviewData(file.name)
+                                  });
+                                }}
+                                className="flex items-center gap-1.5 truncate flex-1 cursor-pointer text-left focus:outline-none"
+                              >
                                 <svg className="w-3 h-3 text-zinc-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <span className="truncate">{file.name}</span>
-                              </div>
-                            </button>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(file.name);
+                                }}
+                                className="opacity-40 group-hover:opacity-100 bg-zinc-800/80 hover:bg-indigo-500/30 text-zinc-400 hover:text-indigo-300 font-mono text-[9px] w-4 h-4 flex items-center justify-center rounded transition-all border border-white/5 hover:border-indigo-500/30 cursor-pointer ml-1.5 shrink-0 animate-fade-in"
+                                title="Reference in prompt context"
+                              >
+                                @
+                              </button>
+                            </div>
                           );
                         })}
                       </div>
@@ -733,6 +1001,116 @@ Rules:
         </section>
 
         {/* Right Sidebar removed to keep layout clean */}
+
+        {/* Document Preview Modal */}
+        {previewFile && (
+          <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[999] flex items-center justify-center p-4 md:p-6 animate-fade-in">
+            <div className="bg-zinc-900 border border-white/10 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up">
+              {/* Modal Header */}
+              <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-zinc-900/50 backdrop-blur-md">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <svg className="w-5 h-5 text-indigo-400 shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <div className="truncate">
+                    <h3 className="text-sm font-bold text-white font-mono truncate">{previewFile.name}</h3>
+                    <p className="text-[10px] text-zinc-500">Document Reader Context</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setPreviewFile(null)}
+                  className="text-zinc-400 hover:text-white p-1 hover:bg-white/5 rounded-lg transition-all cursor-pointer"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="flex-1 p-6 overflow-y-auto bg-zinc-950/40 custom-scrollbar">
+                <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-5 md:p-6 font-sans text-xs text-zinc-300 leading-relaxed shadow-inner">
+                  {/* Mock official document look */}
+                  <div className="border-b border-white/5 pb-4 mb-4 flex flex-col md:flex-row md:justify-between md:items-start gap-2">
+                    <div>
+                      <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">{previewFile.title}</h2>
+                      <p className="text-[10px] text-zinc-500 mt-1">Author/Source: {previewFile.author}</p>
+                    </div>
+                    <span className="text-[9px] font-mono text-zinc-400 bg-zinc-800 px-2.5 py-0.5 rounded-full shrink-0 self-start">
+                      {previewFile.date}
+                    </span>
+                  </div>
+
+                  <div className="prose prose-invert prose-xs max-w-none text-zinc-300 space-y-4 font-sans">
+                    {previewFile.content?.split('\n\n').map((paragraph, idx) => {
+                      if (paragraph.startsWith('###')) {
+                        return <h3 key={idx} className="text-xs font-bold text-indigo-400 font-mono pt-2 border-b border-white/5 pb-1 mb-2">{paragraph.replace('###', '').trim()}</h3>;
+                      }
+                      if (paragraph.startsWith('-')) {
+                        return (
+                          <ul key={idx} className="list-disc pl-4 space-y-1.5 my-2">
+                            {paragraph.split('\n').map((li, liIdx) => (
+                              <li key={liIdx}>{li.replace(/^-\s*/, '').trim()}</li>
+                            ))}
+                          </ul>
+                        );
+                      }
+                      if (paragraph.startsWith('|')) {
+                        const rows = paragraph.split('\n').filter(r => r.trim());
+                        return (
+                          <div key={idx} className="overflow-x-auto my-3 border border-white/5 rounded-lg">
+                            <table className="min-w-full text-[10px]">
+                              <thead>
+                                <tr className="bg-zinc-900/80 text-zinc-400 border-b border-white/5">
+                                  {rows[0].split('|').map((col, cIdx) => {
+                                    const trimmed = col.trim();
+                                    if (trimmed === "" && (cIdx === 0 || cIdx === rows[0].split('|').length - 1)) return null;
+                                    return <th key={cIdx} className="px-3 py-2 text-left font-mono">{trimmed}</th>;
+                                  }).filter(Boolean)}
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-white/5">
+                                {rows.slice(2).map((row, rIdx) => (
+                                  <tr key={rIdx} className="hover:bg-white/5">
+                                    {row.split('|').map((col, cIdx) => {
+                                      const trimmed = col.trim();
+                                      if (trimmed === "" && (cIdx === 0 || cIdx === row.split('|').length - 1)) return null;
+                                      return <td key={cIdx} className="px-3 py-2 text-zinc-300 font-mono">{trimmed}</td>;
+                                    }).filter(Boolean)}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      }
+                      return <p key={idx} className="leading-relaxed whitespace-pre-line my-2">{paragraph}</p>;
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="px-6 py-4 border-t border-white/5 bg-zinc-900/80 flex items-center justify-between gap-3">
+                <button
+                  onClick={() => {
+                    handleFileSelect(previewFile.name);
+                    setPreviewFile(null);
+                  }}
+                  className="text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 hover:border-indigo-500/30 px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 font-semibold cursor-pointer"
+                >
+                  <span>@ Reference in prompt</span>
+                </button>
+                <button
+                  onClick={() => setPreviewFile(null)}
+                  className="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-white/5 px-4 py-2 rounded-xl transition-all font-semibold cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>
