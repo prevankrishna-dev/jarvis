@@ -576,7 +576,7 @@ Rules:
         </aside>
 
         {/* Center Panel: Main Chat Workspace */}
-        <section className="lg:col-span-6 flex flex-col justify-between bg-zinc-950/20 overflow-hidden relative">
+        <section className="lg:col-span-9 flex flex-col justify-between bg-zinc-950/20 overflow-hidden relative">
           
           {/* Scrollable messages container */}
           <div className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-6">
@@ -707,132 +707,7 @@ Rules:
 
         </section>
 
-        {/* Right Sidebar: Pipeline Settings & Logic */}
-        <aside className="lg:col-span-3 border-l border-white/5 bg-zinc-950/40 p-4 md:p-5 flex flex-col gap-6 overflow-y-auto">
-          
-          {/* Header */}
-          <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-widest font-mono">
-              RAG Control Settings
-            </h3>
-            <p className="text-[11px] text-zinc-500 mt-1 leading-normal">
-              Tune system prompts and vector settings live for presentation testing.
-            </p>
-          </div>
-
-          {/* Prompt Editor */}
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider font-mono">
-              RAG System Prompt
-            </label>
-            <textarea
-              value={systemPrompt}
-              onChange={(e) => setSystemPrompt(e.target.value)}
-              rows={6}
-              className="w-full bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300 rounded-lg p-2.5 focus:outline-none focus:border-indigo-500 resize-none leading-normal"
-            />
-          </div>
-
-          {/* Hyperparameters */}
-          <div className="flex flex-col gap-4">
-            
-            {/* Slider: Confidence Cutoff */}
-            <div>
-              <div className="flex justify-between items-center mb-1 font-mono text-xs">
-                <span className="font-bold text-zinc-400 uppercase tracking-wider">Confidence Cutoff</span>
-                <span className="text-indigo-400 font-bold">{threshold.toFixed(2)}</span>
-              </div>
-              <input
-                type="range"
-                min="0.40"
-                max="0.95"
-                step="0.05"
-                value={threshold}
-                onChange={(e) => setThreshold(parseFloat(e.target.value))}
-                className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-              />
-              <p className="text-[9px] text-zinc-500 font-mono mt-1">
-                Refuse queries with embedding matches lower than this rating.
-              </p>
-            </div>
-
-            {/* Input: Chunk Size */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider font-mono block mb-1">
-                  Chunk Size
-                </label>
-                <input
-                  type="number"
-                  value={chunkSize}
-                  onChange={(e) => setChunkSize(parseInt(e.target.value))}
-                  className="w-full bg-zinc-900 border border-white/10 text-xs font-mono text-white rounded px-2.5 py-1.5 focus:outline-none focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider font-mono block mb-1">
-                  Overlap
-                </label>
-                <input
-                  type="number"
-                  value={chunkOverlap}
-                  onChange={(e) => setChunkOverlap(parseInt(e.target.value))}
-                  className="w-full bg-zinc-900 border border-white/10 text-xs font-mono text-white rounded px-2.5 py-1.5 focus:outline-none focus:border-indigo-500"
-                />
-              </div>
-            </div>
-
-            {/* Input: Top K */}
-            <div>
-              <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider font-mono block mb-1">
-                Retrieve Top-K Chunks
-              </label>
-              <select
-                value={topK}
-                onChange={(e) => setTopK(parseInt(e.target.value))}
-                className="w-full bg-zinc-900 border border-white/10 text-xs font-mono text-white rounded px-2.5 py-1.5 focus:outline-none focus:border-indigo-500"
-              >
-                <option value={1}>1 Chunk</option>
-                <option value={3}>3 Chunks</option>
-                <option value={5}>5 Chunks</option>
-                <option value={8}>8 Chunks</option>
-              </select>
-            </div>
-
-          </div>
-
-          {/* API keys credentials */}
-          <div className="border-t border-white/5 pt-4 flex flex-col gap-3">
-            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider font-mono">
-              API Connection Secrets
-            </span>
-            
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[9px] font-bold text-zinc-500 uppercase font-mono">Google Studio Key</label>
-              <input
-                type="password"
-                value={googleApiKey}
-                onChange={(e) => setGoogleApiKey(e.target.value)}
-                className="w-full bg-zinc-900 border border-white/10 text-[10px] font-mono text-white rounded px-2 py-1 focus:outline-none focus:border-indigo-500"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[9px] font-bold text-zinc-500 uppercase font-mono">Tavily Search Key</label>
-              <input
-                type="password"
-                value={tavilyApiKey}
-                onChange={(e) => setTavilyApiKey(e.target.value)}
-                className="w-full bg-zinc-900 border border-white/10 text-[10px] font-mono text-white rounded px-2 py-1 focus:outline-none focus:border-indigo-500"
-              />
-            </div>
-            
-            <div className="text-[9px] text-zinc-500 leading-normal font-mono mt-1">
-              Keys are passed locally to browser fetch heads. Secrets are not cached or stored on external servers.
-            </div>
-          </div>
-
-        </aside>
+        {/* Right Sidebar removed to keep layout clean */}
 
       </div>
     </div>
