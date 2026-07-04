@@ -13,7 +13,7 @@ if not os.getenv("GOOGLE_API_KEY"):
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 # Initialize embeddings
-embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
 # Set up persistent Chroma client relative to this file's folder
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

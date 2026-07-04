@@ -59,8 +59,8 @@ def get_answer(query: str, business_id: str, threshold: float = 0.50) -> Dict[st
     ]
 
     try:
-        # Initialize Gemini 1.5 Flash client
-        llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.0)
+        # Initialize Gemini 2.5 Flash client
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.0)
         response = llm.invoke(messages)
         answer = response.content
     except Exception as e:

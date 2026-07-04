@@ -30,3 +30,7 @@ jarvis-ui/.env*
 .vscode/
 .idea/
 Thumbs.db
+
+# Local database and data files
+backend/chroma_db/
+backend/scratch/

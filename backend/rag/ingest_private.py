@@ -37,7 +37,7 @@ def ingest_private_pdf(pdf_bytes: bytes, filename: str, business_id: str) -> int
             "source": filename,
             "business_id": business_id,
             "domain": "private",
-            "url": None
+            "url": ""
         }
         for _ in range(len(chunks))
     ]
