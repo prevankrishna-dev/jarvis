@@ -218,3 +218,36 @@ export async function uploadDocument(
 
   return response.json();
 }
+
+export interface FileItem {
+  name: string;
+  size: string;
+}
+
+export interface FolderItem {
+  id: string;
+  name: string;
+  files: FileItem[];
+}
+
+export async function getFiles(): Promise<FolderItem[]> {
+  if (USE_MOCK) {
+    return [
+      {
+        id: "public",
+        name: "public",
+        files: [
+          { name: "Startup_India_DPIIT_Guidelines.pdf", size: "312 KB" },
+          { name: "MUDRA_Loan_Scheme_Details.pdf", size: "185 KB" }
+        ]
+      }
+    ];
+  }
+
+  const response = await fetch(`${BACKEND_URL}/files`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch files list: ${response.statusText}`);
+  }
+
+  return response.json();
+}

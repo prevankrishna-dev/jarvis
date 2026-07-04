@@ -87,3 +87,69 @@ async def upload_document(
             status_code=500,
             detail=f"Ingestion failed for file '{file.filename}': {str(e)}"
         )
+
+@app.get("/files")
+async def list_files():
+    """
+    Scans backend/data/ directory, formats file sizes,
+    and groups files by category/folder dynamically.
+    """
+    # Define directories shape
+    folders = {
+        "public": {"id": "public", "name": "public", "files": []},
+        "confidential": {"id": "confidential", "name": "confidential", "files": []},
+        "revenue": {"id": "revenue", "name": "revenue", "files": []},
+        "certificates": {"id": "certificates", "name": "certificates", "files": []},
+        "invoices": {"id": "invoices", "name": "invoices", "files": []},
+        "approval": {"id": "approval", "name": "approval documents", "files": []},
+        "credit": {"id": "credit", "name": "credit docs", "files": []},
+    }
+    
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(backend_dir, "data")
+    
+    if not os.path.exists(data_dir):
+        return list(folders.values())
+        
+    def get_folder_id(filename: str) -> str:
+        fn = filename.lower()
+        if "invoice" in fn:
+            return "invoices"
+        elif "revenue" in fn or "annual_report" in fn or "turnover" in fn:
+            return "revenue"
+        elif "certificate" in fn or "incorporation" in fn or "udyam" in fn or "registration" in fn:
+            return "certificates"
+        elif "confidential" in fn or "agreement" in fn or "employment" in fn or "business_plan" in fn:
+            return "confidential"
+        elif "cgtmse" in fn or "mudra" in fn or "loan" in fn or "sidbi" in fn:
+            return "credit"
+        elif "noc" in fn or "resolution" in fn or "approval" in fn:
+            return "approval"
+        else:
+            return "public"
+            
+    try:
+        pdf_files = sorted([f for f in os.listdir(data_dir) if f.lower().endswith(".pdf")])
+        for fname in pdf_files:
+            filepath = os.path.join(data_dir, fname)
+            try:
+                size_bytes = os.path.getsize(filepath)
+                if size_bytes >= 1024 * 1024:
+                    size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
+                else:
+                    size_str = f"{size_bytes / 1024:.0f} KB"
+            except Exception:
+                size_str = "Unknown size"
+                
+            folder_id = get_folder_id(fname)
+            folders[folder_id]["files"].append({
+                "name": fname,
+                "size": size_str
+            })
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to scan files: {str(e)}"
+        )
+            
+    return list(folders.values())

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { sendChatQuery, uploadDocument, Source } from "@/lib/api";
+import { sendChatQuery, uploadDocument, Source, getFiles, FolderItem } from "@/lib/api";
 
 const SplitText = dynamic(() => import("./SplitText"), { ssr: false });
 
@@ -288,11 +288,7 @@ Rules:
   );
 
   // Private docs state
-  const [privateDocs, setPrivateDocs] = useState<PrivateDoc[]>([
-    { name: "sample_udyam_certificate.pdf", size: "245 KB", status: "ready", uploadedAt: "Today, 10:45 AM" },
-    { name: "sample_gst_registration.pdf", size: "312 KB", status: "ready", uploadedAt: "Today, 10:46 AM" },
-    { name: "sample_business_plan.pdf", size: "1.2 MB", status: "ready", uploadedAt: "Today, 11:15 AM" },
-  ]);
+  const [privateDocs, setPrivateDocs] = useState<PrivateDoc[]>([]);
 
   // Document tree directories
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({
@@ -321,68 +317,7 @@ Rules:
     }));
   };
 
-  const [documentDirectories, setDocumentDirectories] = useState([
-    {
-      id: "public",
-      name: "public",
-      files: [
-        { name: "Startup_India_DPIIT_Guidelines.pdf", size: "312 KB" },
-        { name: "MUDRA_Loan_Scheme_Details.pdf", size: "185 KB" },
-        { name: "CGTMSE_Credit_Guarantee_Guide.pdf", size: "245 KB" },
-        { name: "GST_Compliance_Calendar.pdf", size: "128 KB" }
-      ]
-    },
-    {
-      id: "confidential",
-      name: "confidential",
-      files: [
-        { name: "Client_Vendor_Agreement.pdf", size: "1.2 MB" },
-        { name: "Fictional_Founder_MOU.pdf", size: "450 KB" },
-        { name: "Standard_NDA_Template.pdf", size: "115 KB" }
-      ]
-    },
-    {
-      id: "revenue",
-      name: "revenue",
-      files: [
-        { name: "Q3_Outstanding_Invoices.pdf", size: "95 KB" },
-        { name: "Annual_Turnover_Report.pdf", size: "340 KB" }
-      ]
-    },
-    {
-      id: "certificates",
-      name: "certificates",
-      files: [
-        { name: "Sample_Udyam_Certificate.pdf", size: "110 KB" },
-        { name: "Sample_GST_Registration.pdf", size: "290 KB" },
-        { name: "Sample_Business_Plan.pdf", size: "1.2 MB" }
-      ]
-    },
-    {
-      id: "invoices",
-      name: "invoices",
-      files: [
-        { name: "Invoices_Glorx_Digital_Q3.pdf", size: "512 KB" },
-        { name: "Supplier_Invoice_TataSteel.pdf", size: "640 KB" }
-      ]
-    },
-    {
-      id: "approval",
-      name: "approval documents",
-      files: [
-        { name: "NOC_Municipal_Corporation.pdf", size: "780 KB" },
-        { name: "Board_Resolution_2024.pdf", size: "220 KB" }
-      ]
-    },
-    {
-      id: "credit",
-      name: "credit docs",
-      files: [
-        { name: "SIDBI_MSME_Loan_App.pdf", size: "1.4 MB" },
-        { name: "Tarun_Mudra_Sanction_Letter.pdf", size: "430 KB" }
-      ]
-    }
-  ]);
+  const [documentDirectories, setDocumentDirectories] = useState<FolderItem[]>([]);
 
   const handleFileSelect = (fileName: string) => {
     setActiveFile(fileName);
@@ -398,7 +333,18 @@ Rules:
   const [welcomeVisible, setWelcomeVisible] = useState(true);
   const [welcomeFade, setWelcomeFade] = useState(false);
 
+  const loadFolders = async () => {
+    try {
+      const data = await getFiles();
+      setDocumentDirectories(data);
+    } catch (err) {
+      console.error("Failed to load files:", err);
+    }
+  };
+
   useEffect(() => {
+    loadFolders();
+
     // Start fading out after 2.5 seconds
     const fadeTimeout = setTimeout(() => {
       setWelcomeFade(true);
@@ -501,23 +447,8 @@ Rules:
       };
       setPrivateDocs((prevDocs) => [newDoc, ...prevDocs]);
  
-      // Add file to document directories dynamically
-      const isCert = file.name.toLowerCase().includes("cert") || file.name.toLowerCase().includes("registration") || file.name.toLowerCase().includes("udyam");
-      const targetFolderId = isCert ? "certificates" : "confidential";
-      setDocumentDirectories((prevDirs) =>
-        prevDirs.map((dir) => {
-          if (dir.id === targetFolderId) {
-            return {
-              ...dir,
-              files: [
-                { name: file.name.toLowerCase(), size: `${(file.size / 1024).toFixed(0)} KB` },
-                ...dir.files
-              ]
-            };
-          }
-          return dir;
-        })
-      );
+      // Reload actual files from backend to include newly uploaded file and correct category
+      await loadFolders();
  
       // Add alert message in chat
       const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
