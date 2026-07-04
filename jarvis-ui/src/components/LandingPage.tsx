@@ -198,6 +198,60 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
   const [typedMessage, setTypedMessage] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [simulationComplete, setSimulationComplete] = useState(true);
+
+  // New state variables for autoplay and sequential display modes
+  const [viewMode, setViewMode] = useState<"player" | "stacked">("player");
+  const [isAutoplay, setIsAutoplay] = useState(false);
+  const [autoplayProgress, setAutoplayProgress] = useState(0);
+  const [autoplayTimeLeft, setAutoplayTimeLeft] = useState(4.0);
+
+  // Helper for selecting questions manually
+  const selectQuestionManually = (qObj: typeof demoQuestions[0]) => {
+    setSelectedQuestion(qObj);
+    setIsAutoplay(false);
+  };
+
+  // Autoplay Logic
+  useEffect(() => {
+    if (!isAutoplay || viewMode !== "player") {
+      setAutoplayProgress(0);
+      setAutoplayTimeLeft(4.0);
+      return;
+    }
+
+    if (simulationComplete) {
+      const duration = 4000; // 4 seconds
+      const intervalTime = 50; // Update progress bar every 50ms
+      let elapsed = 0;
+
+      const timer = setInterval(() => {
+        elapsed += intervalTime;
+        const ratio = Math.min(100, (elapsed / duration) * 100);
+        setAutoplayProgress(ratio);
+        setAutoplayTimeLeft(Math.max(0, (duration - elapsed) / 1000));
+
+        if (elapsed >= duration) {
+          clearInterval(timer);
+          // Go to next question
+          const currentIdx = demoQuestions.findIndex((dq) => dq.q === selectedQuestion.q);
+          const nextIdx = (currentIdx + 1) % demoQuestions.length;
+          setSelectedQuestion(demoQuestions[nextIdx]);
+          // Re-trigger simulator state update
+          setAutoplayProgress(0);
+          setAutoplayTimeLeft(4.0);
+        }
+      }, intervalTime);
+
+      return () => {
+        clearInterval(timer);
+      };
+    } else {
+      // Reset progress to 0 during typing/pipeline phase
+      setAutoplayProgress(0);
+      setAutoplayTimeLeft(4.0);
+    }
+  }, [isAutoplay, simulationComplete, selectedQuestion.q, viewMode]);
+
   // Navigation trigger
 
   const getResponseText = useCallback((questionObj: typeof demoQuestions[0], threshold: number) => {
@@ -256,6 +310,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
   const handleThresholdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseFloat(e.target.value);
     setConfidenceThreshold(val);
+    setIsAutoplay(false); // Pause autoplay on manual threshold adjustment
     if (simulationComplete) {
       setTypedMessage(getResponseText(selectedQuestion, val));
     }
@@ -289,7 +344,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           <a href="#demo" className="hover:text-[#5B5FEF] transition-colors">Interactive Demo</a>
           <a href="#solutions" className="hover:text-[#5B5FEF] transition-colors">Target Verticals</a>
           <a href="#comparison" className="hover:text-[#5B5FEF] transition-colors">RAG Specs</a>
-          
+
           {isLoggedIn ? (
             <button
               onClick={onGoToConsole}
@@ -316,7 +371,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
 
       {/* Main Section */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-        
+
         {/* Left Column: Copy & Presentation */}
         <section className="lg:col-span-5 flex flex-col gap-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight gradient-text">
@@ -326,9 +381,9 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
           </h1>
 
           <p className="text-[#374151] text-lg leading-relaxed max-w-xl">
-            A dual-layer Retrieval-Augmented Generation (RAG) assistant designed for businesses. 
-            Jarvis securely indexes your private documents and merges them with live government, compliance, 
-            and web data. 
+            A dual-layer Retrieval-Augmented Generation (RAG) assistant designed for businesses.
+            Jarvis securely indexes your private documents and merges them with live government, compliance,
+            and web data.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
@@ -377,36 +432,121 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
               </div>
             </div>
 
+            {/* Tab Selector */}
+            <div className="bg-[#F0F2F9] border-b border-[#E5E7EB] px-4 py-2 flex gap-2">
+              <button
+                onClick={() => setViewMode("player")}
+                className={`px-3 py-1 text-xs font-mono font-bold rounded-md transition-all cursor-pointer ${viewMode === "player"
+                  ? "bg-[#5B5FEF] text-white shadow-sm"
+                  : "text-[#6B7280] hover:bg-zinc-200/60"
+                  }`}
+              >
+                🎮 Interactive Player
+              </button>
+              <button
+                onClick={() => setViewMode("stacked")}
+                className={`px-3 py-1 text-xs font-mono font-bold rounded-md transition-all cursor-pointer ${viewMode === "stacked"
+                  ? "bg-[#5B5FEF] text-white shadow-sm"
+                  : "text-[#6B7280] hover:bg-zinc-200/60"
+                  }`}
+              >
+                📋 Show All Stacked
+              </button>
+            </div>
+
             {/* RAG Controls & Status */}
             <div className="p-4 md:p-6 bg-[#EEF0F7]/95 border-b border-[#E5E7EB] flex flex-col md:flex-row md:items-center justify-between gap-6">
-              
-              {/* Question selector */}
-              <div className="flex-1">
-                <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wider block mb-2 font-mono">
-                  Select Question to Demo
-                </label>
-                <div className="relative">
-                  <select
-                    value={selectedQuestion.q}
-                    onChange={(e) => {
-                      const qObj = demoQuestions.find((dq) => dq.q === e.target.value);
-                      if (qObj) setSelectedQuestion(qObj);
-                    }}
-                    className="w-full bg-white border border-[#E5E7EB] text-[#111827] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-[#5B5FEF]/50 appearance-none font-sans shadow-sm"
-                  >
-                    {demoQuestions.map((q, idx) => (
-                      <option key={idx} value={q.q}>
-                        Q{idx + 1}: {q.q.slice(0, 50)}...
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#6B7280]">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+
+              {viewMode === "player" ? (
+                /* Question selector */
+                <div className="flex-1">
+                  <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wider block mb-2 font-mono">
+                    Select Question to Demo
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={selectedQuestion.q}
+                      onChange={(e) => {
+                        const qObj = demoQuestions.find((dq) => dq.q === e.target.value);
+                        if (qObj) selectQuestionManually(qObj);
+                      }}
+                      className="w-full bg-white border border-[#E5E7EB] text-[#111827] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-[#5B5FEF]/50 appearance-none font-sans shadow-sm"
+                    >
+                      {demoQuestions.map((q, idx) => (
+                        <option key={idx} value={q.q}>
+                          Q{idx + 1}: {q.q.slice(0, 50)}...
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#6B7280]">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Autoplay & Navigation Controls */}
+                  <div className="flex items-center gap-2 mt-3">
+                    <button
+                      onClick={() => setIsAutoplay(!isAutoplay)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all shadow-sm cursor-pointer ${isAutoplay
+                        ? "bg-red-500 text-white hover:bg-red-600"
+                        : "bg-emerald-600 text-white hover:bg-emerald-700"
+                        }`}
+                    >
+                      {isAutoplay ? (
+                        <>
+                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          Pause Autoplay
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-3.5 h-3.5 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                          </svg>
+                          Play Autoplay
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const currentIdx = demoQuestions.findIndex((dq) => dq.q === selectedQuestion.q);
+                        const prevIdx = (currentIdx - 1 + demoQuestions.length) % demoQuestions.length;
+                        selectQuestionManually(demoQuestions[prevIdx]);
+                      }}
+                      className="p-1.5 rounded-lg border border-[#E5E7EB] bg-white text-[#4B5563] hover:bg-zinc-50 shadow-sm cursor-pointer"
+                      title="Previous Question"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const currentIdx = demoQuestions.findIndex((dq) => dq.q === selectedQuestion.q);
+                        const nextIdx = (currentIdx + 1) % demoQuestions.length;
+                        selectQuestionManually(demoQuestions[nextIdx]);
+                      }}
+                      className="p-1.5 rounded-lg border border-[#E5E7EB] bg-white text-[#4B5563] hover:bg-zinc-50 shadow-sm cursor-pointer"
+                      title="Next Question"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
-              </div>
+              ) : (
+                /* Header indicating stacked view */
+                <div className="flex-1">
+                  <h4 className="text-sm font-bold text-[#111827] font-sans">All Demonstrations Feed</h4>
+                  <p className="text-xs text-[#6B7280] font-mono mt-0.5">Showing Q1 to Q5 processed simultaneously</p>
+                </div>
+              )}
 
               {/* Slider for Confidence Thresholding */}
               <div className="w-full md:w-60">
@@ -414,9 +554,8 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wider">
                     Confidence Cutoff
                   </label>
-                  <span className={`text-xs font-bold ${
-                    confidenceThreshold > 0.8 ? "text-rose-600" : confidenceThreshold > 0.6 ? "text-amber-600" : "text-emerald-600"
-                  }`}>
+                  <span className={`text-xs font-bold ${confidenceThreshold > 0.8 ? "text-rose-600" : confidenceThreshold > 0.6 ? "text-amber-600" : "text-emerald-600"
+                    }`}>
                     {confidenceThreshold.toFixed(2)}
                   </span>
                 </div>
@@ -437,117 +576,215 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
               </div>
             </div>
 
-            {/* Simulated Chat Interface */}
-            <div className="p-4 md:p-6 min-h-[340px] flex flex-col justify-between gap-6 bg-[#E6E9F2]/50">
-              
-              {/* Question bubble */}
-              <div className="flex flex-col gap-2 self-end max-w-[85%]">
-                <div className="text-[10px] text-[#6B7280] font-mono self-end">USER QUERY</div>
-                <div className="bg-gradient-to-br from-[#1E1B4B] to-[#5B5FEF] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm shadow-md shadow-[#5B5FEF]/5 font-sans leading-relaxed">
-                  {selectedQuestion.q}
+            {/* Autoplay Progress Bar */}
+            {isAutoplay && viewMode === "player" && (
+              <div className="bg-indigo-50/80 border-b border-[#E5E7EB] px-4 py-1.5 flex items-center justify-between text-[10px] font-mono text-[#5B5FEF]">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#5B5FEF] animate-ping" />
+                  <span>
+                    {simulationComplete
+                      ? `Autoplay active: Next demo in ${autoplayTimeLeft.toFixed(1)}s`
+                      : "Autoplay active: Processing current query..."}
+                  </span>
                 </div>
+                {simulationComplete && (
+                  <div className="w-32 bg-zinc-200 h-1.5 rounded-full overflow-hidden">
+                    <div
+                      className="bg-[#5B5FEF] h-full transition-all duration-75"
+                      style={{ width: `${autoplayProgress}%` }}
+                    />
+                  </div>
+                )}
               </div>
+            )}
 
-              {/* RAG pipeline execution step visualizer */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-                {[
-                  { label: "ChromaDB: Public", activeStep: 1 },
-                  { label: "Tavily: Live Search", activeStep: 2 },
-                  { label: "ChromaDB: Private", activeStep: 3 },
-                  { label: "Gemini: Generation", activeStep: 4 },
-                ].map((step, idx) => {
-                  const isChecked = currentStep >= step.activeStep;
-                  const isCurrent = currentStep === step.activeStep - 1 && isTyping;
-                  return (
-                     <div
-                      key={idx}
-                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs font-mono transition-all ${
-                        isChecked
+            {/* Simulated Chat Interface or Stacked View */}
+            {viewMode === "player" ? (
+              <div className="p-4 md:p-6 min-h-[340px] flex flex-col justify-between gap-6 bg-[#E6E9F2]/50">
+
+                {/* Question bubble */}
+                <div className="flex flex-col gap-2 self-end max-w-[85%]">
+                  <div className="text-[10px] text-[#6B7280] font-mono self-end">USER QUERY</div>
+                  <div className="bg-gradient-to-br from-[#1E1B4B] to-[#5B5FEF] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm shadow-md shadow-[#5B5FEF]/5 font-sans leading-relaxed">
+                    {selectedQuestion.q}
+                  </div>
+                </div>
+
+                {/* RAG pipeline execution step visualizer */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                  {[
+                    { label: "ChromaDB: Public", activeStep: 1 },
+                    { label: "Tavily: Live Search", activeStep: 2 },
+                    { label: "ChromaDB: Private", activeStep: 3 },
+                    { label: "Gemini: Generation", activeStep: 4 },
+                  ].map((step, idx) => {
+                    const isChecked = currentStep >= step.activeStep;
+                    const isCurrent = currentStep === step.activeStep - 1 && isTyping;
+                    return (
+                      <div
+                        key={idx}
+                        className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs font-mono transition-all ${isChecked
                           ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
                           : isCurrent
-                          ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#5B5FEF] animate-pulse"
-                          : "bg-white/40 border-[#E5E7EB] text-[#6B7280]"
-                      }`}
-                    >
-                      {isChecked ? (
-                        <svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      ) : isCurrent ? (
-                        <span className="w-2 h-2 rounded-full bg-[#5B5FEF] animate-ping shrink-0" />
-                      ) : (
-                        <div className="w-3.5 h-3.5 rounded-full border border-zinc-300 shrink-0" />
-                      )}
-                      <span className="truncate">{step.label}</span>
+                            ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#5B5FEF] animate-pulse"
+                            : "bg-white/40 border-[#E5E7EB] text-[#6B7280]"
+                          }`}
+                      >
+                        {isChecked ? (
+                          <svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        ) : isCurrent ? (
+                          <span className="w-2 h-2 rounded-full bg-[#5B5FEF] animate-ping shrink-0" />
+                        ) : (
+                          <div className="w-3.5 h-3.5 rounded-full border border-zinc-300 shrink-0" />
+                        )}
+                        <span className="truncate">{step.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bot response block */}
+                <div className="flex flex-col gap-2 self-start w-full">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <span className="gradient-brand w-5 h-5 rounded-md flex items-center justify-center font-bold text-[10px] text-white">
+                        J
+                      </span>
+                      <span className="text-[10px] text-[#6B7280] font-mono">JARVIS RAG ENGINE</span>
                     </div>
-                  );
-                })}
-              </div>
 
-              {/* Bot response block */}
-              <div className="flex flex-col gap-2 self-start w-full">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <span className="gradient-brand w-5 h-5 rounded-md flex items-center justify-center font-bold text-[10px] text-white">
-                      J
-                    </span>
-                    <span className="text-[10px] text-[#6B7280] font-mono">JARVIS RAG ENGINE</span>
-                  </div>
-
-                  {/* Confidence Badge */}
-                  {simulationComplete && (
-                    <div className={`flex items-center gap-1.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                      selectedQuestion.score < confidenceThreshold
+                    {/* Confidence Badge */}
+                    {simulationComplete && (
+                      <div className={`flex items-center gap-1.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${selectedQuestion.score < confidenceThreshold
                         ? "bg-rose-500/5 border-rose-500/20 text-rose-600"
                         : selectedQuestion.score >= 0.85
-                        ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
-                        : "bg-amber-500/5 border-amber-500/20 text-amber-600"
-                    }`}>
-                      Confidence: {selectedQuestion.score.toFixed(2)}
-                    </div>
-                  )}
+                          ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
+                          : "bg-amber-500/5 border-amber-500/20 text-amber-600"
+                        }`}>
+                        Confidence: {selectedQuestion.score.toFixed(2)}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="bg-white border border-[#E5E7EB] text-[#111827] px-5 py-4 rounded-2xl rounded-tl-sm text-sm shadow-md shadow-zinc-900/5 font-mono leading-relaxed min-h-[140px] whitespace-pre-wrap">
+                    {isTyping ? (
+                      <div className="flex items-center gap-1 text-[#6B7280] py-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.2s]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.4s]" />
+                        <span className="ml-1 text-xs">Retrieving & generating grounded answer...</span>
+                      </div>
+                    ) : (
+                      typedMessage
+                    )}
+                  </div>
                 </div>
 
-                <div className="bg-white border border-[#E5E7EB] text-[#111827] px-5 py-4 rounded-2xl rounded-tl-sm text-sm shadow-md shadow-zinc-900/5 font-mono leading-relaxed min-h-[140px] whitespace-pre-wrap">
-                  {isTyping ? (
-                    <div className="flex items-center gap-1 text-[#6B7280] py-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.2s]" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.4s]" />
-                      <span className="ml-1 text-xs">Retrieving & generating grounded answer...</span>
+                {/* Source Card Citation */}
+                {simulationComplete && selectedQuestion.score >= confidenceThreshold && (
+                  <div className="border border-[#E5E7EB] bg-white p-3.5 rounded-xl flex flex-col gap-2 shadow-sm animate-float">
+                    <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1.5">
+                      <span className="text-[10px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
+                        Grounding Reference Citation
+                      </span>
+                      <span className="text-[9px] text-[#374151] font-mono uppercase bg-zinc-100 px-1.5 py-0.5 rounded">
+                        {selectedQuestion.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
+                      </span>
                     </div>
-                  ) : (
-                    typedMessage
-                  )}
-                </div>
+                    <div className="flex gap-2.5 items-start">
+                      <svg className="w-4.5 h-4.5 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <div className="flex-1">
+                        <p className="text-xs font-bold text-[#111827] font-mono truncate">{selectedQuestion.source}</p>
+                        <p className="text-[11px] text-[#374151] mt-1 leading-normal italic bg-zinc-50/50 p-2 rounded border border-zinc-100">
+                          &ldquo;{selectedQuestion.excerpt.slice(0, 140)}...&rdquo;
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
               </div>
-
-              {/* Source Card Citation */}
-              {simulationComplete && selectedQuestion.score >= confidenceThreshold && (
-                <div className="border border-[#E5E7EB] bg-white p-3.5 rounded-xl flex flex-col gap-2 shadow-sm animate-float">
-                  <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1.5">
-                    <span className="text-[10px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
-                      Grounding Reference Citation
-                    </span>
-                    <span className="text-[9px] text-[#374151] font-mono uppercase bg-zinc-100 px-1.5 py-0.5 rounded">
-                      {selectedQuestion.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
-                    </span>
-                  </div>
-                  <div className="flex gap-2.5 items-start">
-                    <svg className="w-4.5 h-4.5 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div className="flex-1">
-                      <p className="text-xs font-bold text-[#111827] font-mono truncate">{selectedQuestion.source}</p>
-                      <p className="text-[11px] text-[#374151] mt-1 leading-normal italic bg-zinc-50/50 p-2 rounded border border-zinc-100">
-                        &ldquo;{selectedQuestion.excerpt.slice(0, 140)}...&rdquo;
-                      </p>
+            ) : (
+              /* Stacked View: displaying all 5 demonstrations one after another */
+              <div className="p-4 md:p-6 max-h-[580px] overflow-y-auto flex flex-col gap-6 bg-[#E6E9F2]/50 scrollbar-thin">
+                {demoQuestions.map((q, idx) => (
+                  <div key={idx} className="flex flex-col gap-4 p-5 bg-white/70 border border-[#E5E7EB] rounded-2xl shadow-sm">
+                    {/* Header */}
+                    <div className="flex justify-between items-center border-b border-[#E5E7EB]/60 pb-2">
+                      <span className="text-xs font-mono font-bold text-[#5B5FEF]">DEMONSTRATION {idx + 1}</span>
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
+                        Score: {q.score.toFixed(2)}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
 
-            </div>
+                    {/* Question */}
+                    <div className="flex flex-col gap-1 max-w-[85%] self-end">
+                      <div className="text-[9px] text-[#6B7280] font-mono self-end">USER QUERY</div>
+                      <div className="bg-gradient-to-br from-[#1E1B4B] to-[#5B5FEF] text-white px-4 py-2.5 rounded-xl rounded-tr-sm text-xs shadow-sm font-sans leading-relaxed">
+                        {q.q}
+                      </div>
+                    </div>
+
+                    {/* Steps */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 text-[10px] font-mono">
+                      {[
+                        { label: "ChromaDB: Public" },
+                        { label: "Tavily: Live Search" },
+                        { label: "ChromaDB: Private" },
+                        { label: "Gemini: Generation" },
+                      ].map((step, sIdx) => (
+                        <div key={sIdx} className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-500/5 border border-emerald-500/10 text-emerald-600">
+                          <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                          <span className="truncate">{step.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Output */}
+                    <div className="flex flex-col gap-1.5 self-start w-full">
+                      <div className="flex items-center gap-1.5">
+                        <span className="gradient-brand w-4.5 h-4.5 rounded flex items-center justify-center font-bold text-[9px] text-white">J</span>
+                        <span className="text-[9px] text-[#6B7280] font-mono">JARVIS RAG ENGINE</span>
+                      </div>
+                      <div className="bg-white border border-[#E5E7EB] text-[#111827] px-4 py-3 rounded-xl rounded-tl-sm text-xs font-mono leading-relaxed whitespace-pre-wrap shadow-sm">
+                        {getResponseText(q, confidenceThreshold)}
+                      </div>
+                    </div>
+
+                    {/* Citation */}
+                    {q.score >= confidenceThreshold && (
+                      <div className="border border-[#E5E7EB] bg-white p-3 rounded-xl flex flex-col gap-1.5 shadow-sm">
+                        <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1">
+                          <span className="text-[9px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
+                            Grounding Reference Citation
+                          </span>
+                          <span className="text-[8px] text-[#374151] font-mono uppercase bg-zinc-100 px-1 py-0.5 rounded">
+                            {q.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
+                          </span>
+                        </div>
+                        <div className="flex gap-2 items-start">
+                          <svg className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[11px] font-bold text-[#111827] font-mono truncate">{q.source}</p>
+                            <p className="text-[10px] text-[#374151] mt-0.5 leading-normal italic bg-zinc-50/50 p-1.5 rounded border border-zinc-100">
+                              &ldquo;{q.excerpt.slice(0, 140)}...&rdquo;
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -556,7 +793,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       {/* Segment 2: Target Verticals (Faceted Solutions) */}
       <section id="solutions" className="bg-white border-y border-[#E5E7EB] py-20 px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col gap-12">
-          
+
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-3">
             <span className="text-xs font-bold text-[#5B5FEF] tracking-widest uppercase font-mono">
               Faceted Intelligence
@@ -578,17 +815,15 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   setActiveAudience(audience.id);
                   // Pick first question from this audience to simulate
                   const firstQ = demoQuestions.find((dq) => dq.q === audience.questions[0]);
-                  if (firstQ) setSelectedQuestion(firstQ);
+                  if (firstQ) selectQuestionManually(firstQ);
                 }}
-                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border text-sm font-semibold transition-all text-left ${
-                  activeAudience === audience.id
-                    ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/30 text-[#5B5FEF] shadow-sm"
-                    : "bg-white border-[#E5E7EB] text-[#374151] hover:bg-zinc-50 hover:text-[#111827]"
-                }`}
+                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border text-sm font-semibold transition-all text-left ${activeAudience === audience.id
+                  ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/30 text-[#5B5FEF] shadow-sm"
+                  : "bg-white border-[#E5E7EB] text-[#374151] hover:bg-zinc-50 hover:text-[#111827]"
+                  }`}
               >
-                <div className={`p-1.5 rounded-lg shrink-0 ${
-                  activeAudience === audience.id ? "bg-[#5B5FEF]/10 text-[#5B5FEF]" : "bg-zinc-100 text-[#6B7280]"
-                }`}>
+                <div className={`p-1.5 rounded-lg shrink-0 ${activeAudience === audience.id ? "bg-[#5B5FEF]/10 text-[#5B5FEF]" : "bg-zinc-100 text-[#6B7280]"
+                  }`}>
                   {audience.icon}
                 </div>
                 <span>{audience.name}</span>
@@ -598,7 +833,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
 
           {/* Tab content panel */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mt-4">
-            
+
             {/* Files list */}
             <div className="lg:col-span-5 glass-panel rounded-2xl p-6 flex flex-col gap-6">
               <div>
@@ -657,21 +892,19 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                     <button
                       key={idx}
                       onClick={() => {
-                        if (match) setSelectedQuestion(match);
+                        if (match) selectQuestionManually(match);
                       }}
                       disabled={!match}
-                      className={`text-left text-sm p-4 rounded-xl border transition-all flex items-center justify-between gap-4 ${
-                        isSelected
-                          ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#111827] font-medium shadow-sm"
-                          : match
+                      className={`text-left text-sm p-4 rounded-xl border transition-all flex items-center justify-between gap-4 ${isSelected
+                        ? "bg-[#5B5FEF]/5 border-[#5B5FEF]/20 text-[#111827] font-medium shadow-sm"
+                        : match
                           ? "bg-zinc-50 border-[#E5E7EB] text-[#374151] hover:bg-zinc-100 hover:text-[#111827]"
                           : "opacity-40 cursor-not-allowed bg-zinc-100 border-transparent text-zinc-400"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-mono ${
-                          isSelected ? "bg-indigo-600 text-white" : "bg-zinc-200 text-[#6B7280]"
-                        }`}>
+                        <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-mono ${isSelected ? "bg-indigo-600 text-white" : "bg-zinc-200 text-[#6B7280]"
+                          }`}>
                           Q{idx + 1}
                         </span>
                         <span className="font-medium">{q}</span>
@@ -710,7 +943,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       {/* Segment 3: RAG vs Standard ChatGPT comparison */}
       <section id="comparison" className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 w-full bg-transparent">
         <div className="flex flex-col gap-12">
-          
+
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-3">
             <span className="text-xs font-bold text-[#5B5FEF] tracking-widest uppercase font-mono">
               Technology Justification
@@ -768,9 +1001,8 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   <tr key={idx} className="hover:bg-zinc-50/50 transition-colors">
                     <td className="p-4 md:p-5 font-semibold text-[#111827]">{row.name}</td>
                     <td className="p-4 md:p-5 text-[#6B7280]">{row.gpt}</td>
-                    <td className={`p-4 md:p-5 font-medium ${
-                      row.highlight ? "text-[#5B5FEF] font-bold" : "text-[#111827]"
-                    } bg-[#5B5FEF]/5`}>
+                    <td className={`p-4 md:p-5 font-medium ${row.highlight ? "text-[#5B5FEF] font-bold" : "text-[#111827]"
+                      } bg-[#5B5FEF]/5`}>
                       {row.jarvis}
                     </td>
                   </tr>
@@ -803,7 +1035,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
 
       {/* Footer */}
       <footer className="glass-panel border-t border-[#E5E7EB] py-8 px-6 text-center text-xs text-[#6B7280] font-mono">
-        <p>© 2026 JARVIS BI Assistant</p>
+        <p>© 2026 JARVIS Assistant Reserved</p>
         <p className="mt-1 text-[#6B7280]">Built using Next.js, FastAPI, LangChain, ChromaDB & Gemini 1.5 Flash</p>
       </footer>
     </div>

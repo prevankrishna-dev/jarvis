@@ -14,12 +14,11 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingStep, setLoadingStep] = useState("");
-  const [isAutoFilling, setIsAutoFilling] = useState(false);
   const [shouldShake, setShouldShake] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting || isAutoFilling) return;
+    if (isSubmitting) return;
 
     if (!username.trim() || !password.trim()) {
       triggerError("Please fill in all fields.");
@@ -29,7 +28,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
     if (username === "demo" && password === "demo123") {
       executeLoginFlow();
     } else {
-      triggerError("Invalid username or password. Try the demo credentials below.");
+      triggerError("Invalid username or password.");
     }
   };
 
@@ -71,49 +70,6 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
         }
       }, step.delay);
     });
-  };
-
-  const handleAutoFill = () => {
-    if (isSubmitting || isAutoFilling) return;
-    
-    setIsAutoFilling(true);
-    setError("");
-    setUsername("");
-    setPassword("");
-
-    const targetUser = "demo";
-    const targetPass = "demo123";
-    
-    let userIndex = 0;
-    let passIndex = 0;
-
-    // Simulate keyboard typing for username
-    const userInterval = setInterval(() => {
-      if (userIndex < targetUser.length) {
-        setUsername((prev) => prev + targetUser[userIndex]);
-        userIndex++;
-      } else {
-        clearInterval(userInterval);
-        
-        // Start typing password after a tiny pause
-        setTimeout(() => {
-          const passInterval = setInterval(() => {
-            if (passIndex < targetPass.length) {
-              setPassword((prev) => prev + targetPass[passIndex]);
-              passIndex++;
-            } else {
-              clearInterval(passInterval);
-              setIsAutoFilling(false);
-              
-              // Trigger submit after complete auto-fill
-              setTimeout(() => {
-                executeLoginFlow();
-              }, 400);
-            }
-          }, 80);
-        }, 200);
-      }
-    }, 80);
   };
 
   return (
@@ -197,7 +153,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
                   </span>
                   <input
                     type="text"
-                    disabled={isAutoFilling}
+                    disabled={isSubmitting}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your username"
@@ -219,7 +175,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
                   </span>
                   <input
                     type={showPassword ? "text" : "password"}
-                    disabled={isAutoFilling}
+                    disabled={isSubmitting}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
@@ -247,7 +203,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
               {/* Submit button */}
               <button
                 type="submit"
-                disabled={isAutoFilling}
+                disabled={isSubmitting}
                 className="w-full mt-2 gradient-brand text-white py-3 rounded-xl font-bold hover:opacity-95 shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 Launch Console
@@ -259,55 +215,7 @@ export default function LoginPage({ onLogin, onBack }: LoginPageProps) {
           )}
         </div>
 
-        {/* Demo Credentials Section */}
-        <div className="mt-6 glass-panel border-white/5 rounded-2xl p-5 bg-zinc-900/30 flex flex-col gap-3 relative overflow-hidden">
-          {/* Subtle decoration */}
-          <div className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-indigo-500/5 blur-xl pointer-events-none" />
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-              <h4 className="text-xs font-semibold text-zinc-300 uppercase tracking-widest font-mono">
-                Demo Environment Credentials
-              </h4>
-            </div>
-            <span className="text-[10px] text-indigo-400 font-mono bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
-              One-Click
-            </span>
-          </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs bg-zinc-950/60 border border-white/5 rounded-xl p-3.5 font-mono">
-            <div>
-              <span className="text-zinc-500">Username: </span>
-              <span className="text-zinc-200 font-semibold">demo</span>
-            </div>
-            <div>
-              <span className="text-zinc-500">Password: </span>
-              <span className="text-zinc-200 font-semibold">demo123</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleAutoFill}
-            disabled={isSubmitting || isAutoFilling}
-            className="w-full bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 hover:border-indigo-500/35 text-indigo-300 font-medium py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-          >
-            {isAutoFilling ? (
-              <>
-                <div className="w-3.5 h-3.5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
-                Auto-typing credentials...
-              </>
-            ) : (
-              <>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                </svg>
-                Auto-Fill & Launch
-              </>
-            )}
-          </button>
-        </div>
       </div>
 
       {/* Global Inline Shake Keyframes definition (Next.js tailwind safe) */}
