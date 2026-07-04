@@ -565,13 +565,7 @@ Rules:
 
           </div>
 
-          {/* Quick instructions box */}
-          <div className="bg-indigo-950/20 border border-indigo-500/10 rounded-xl p-3 mt-4 shrink-0">
-            <h4 className="text-[10px] font-bold text-indigo-300 font-mono uppercase tracking-wider">Quick Hackathon Tip</h4>
-            <p className="text-[9.5px] text-zinc-400 mt-1 leading-normal">
-              Clicking a document tags it in your prompt context (@ mention) for instant RAG execution.
-            </p>
-          </div>
+
 
         </aside>
 
@@ -579,7 +573,7 @@ Rules:
         <section className="lg:col-span-9 flex flex-col justify-between bg-zinc-950/20 overflow-hidden relative">
           
           {/* Scrollable messages container */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-6">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-40 md:pb-44 flex flex-col gap-6">
             {messages.map((msg, idx) => {
               const isUser = msg.sender === "user";
               return (
@@ -645,7 +639,7 @@ Rules:
           </div>
 
           {/* Bottom input area */}
-          <div className="p-4 border-t border-white/5 bg-zinc-950/80 flex flex-col gap-4">
+          <div className="p-4 border-t border-white/5 bg-zinc-950/95 backdrop-blur-md fixed bottom-0 right-0 w-full lg:w-[75%] z-20 flex flex-col gap-4">
             
             {/* Quick demo prompt chips */}
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
