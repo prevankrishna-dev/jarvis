@@ -370,26 +370,26 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
       </header>
 
       {/* Main Section */}
-      <main className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      <main className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20 flex-1 flex flex-col gap-20 relative z-10">
 
-        {/* Left Column: Copy & Presentation */}
-        <section className="lg:col-span-5 flex flex-col gap-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight gradient-text">
+        {/* Hero Copy & Presentation Block */}
+        <section className="flex flex-col items-center text-center gap-8 max-w-4xl mx-auto min-h-[70vh] justify-center py-12">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight leading-tight gradient-text animate-fade-in-up">
             Meet Jarvis.<br />
             <span className="text-[#5B5FEF]">AI Business Intelligence</span><br />
             For Any Domain.
           </h1>
 
-          <p className="text-[#374151] text-lg leading-relaxed max-w-xl">
+          <p className="text-[#374151] text-lg md:text-xl leading-relaxed max-w-2xl animate-fade-in-up animation-delay-100">
             A dual-layer Retrieval-Augmented Generation (RAG) assistant designed for businesses.
             Jarvis securely indexes your private documents and merges them with live government, compliance,
             and web data.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-2">
+          <div className="flex flex-col sm:flex-row gap-4 mt-2 animate-fade-in-up animation-delay-200 justify-center w-full sm:w-auto">
             <button
               onClick={isLoggedIn ? onGoToConsole : onGoToLogin}
-              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-[#5B5FEF]/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo w-full sm:w-auto"
+              className="gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:opacity-95 shadow-lg shadow-[#5B5FEF]/10 transition-all hover:scale-[1.03] flex items-center justify-center gap-3 text-base glow-indigo w-full sm:w-auto cursor-pointer"
             >
               Enter Workspace Console
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -397,26 +397,10 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
               </svg>
             </button>
           </div>
-
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-3 gap-6 pt-6 border-t border-[#E5E7EB] mt-4">
-            <div>
-              <p className="text-3xl font-extrabold text-[#111827]">3-Way</p>
-              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Hybrid Retrieval</p>
-            </div>
-            <div>
-              <p className="text-3xl font-extrabold text-[#5B5FEF]">0.0ms</p>
-              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Context Degradation</p>
-            </div>
-            <div>
-              <p className="text-3xl font-extrabold text-[#5B5FEF]">100%</p>
-              <p className="text-xs text-[#6B7280] uppercase tracking-wider mt-1">Grounded Citations</p>
-            </div>
-          </div>
         </section>
 
-        {/* Right Column: Interactive RAG Simulation */}
-        <section id="demo" className="lg:col-span-7 flex flex-col gap-6">
+        {/* Interactive RAG Simulation */}
+        <section id="demo" className="w-full max-w-3xl mx-auto flex flex-col gap-6 animate-fade-in-up animation-delay-300">
           <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl relative border border-[#E5E7EB]">
             {/* Window bar */}
             <div className="bg-[#E6E9F2] border-b border-[#E5E7EB] px-4 py-3.5 flex justify-between items-center">
@@ -682,30 +666,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                   </div>
                 </div>
 
-                {/* Source Card Citation */}
-                {simulationComplete && selectedQuestion.score >= confidenceThreshold && (
-                  <div className="border border-[#E5E7EB] bg-white p-3.5 rounded-xl flex flex-col gap-2 shadow-sm animate-float">
-                    <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1.5">
-                      <span className="text-[10px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
-                        Grounding Reference Citation
-                      </span>
-                      <span className="text-[9px] text-[#374151] font-mono uppercase bg-zinc-100 px-1.5 py-0.5 rounded">
-                        {selectedQuestion.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
-                      </span>
-                    </div>
-                    <div className="flex gap-2.5 items-start">
-                      <svg className="w-4.5 h-4.5 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <div className="flex-1">
-                        <p className="text-xs font-bold text-[#111827] font-mono truncate">{selectedQuestion.source}</p>
-                        <p className="text-[11px] text-[#374151] mt-1 leading-normal italic bg-zinc-50/50 p-2 rounded border border-zinc-100">
-                          &ldquo;{selectedQuestion.excerpt.slice(0, 140)}...&rdquo;
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+
 
               </div>
             ) : (
@@ -757,30 +718,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                       </div>
                     </div>
 
-                    {/* Citation */}
-                    {q.score >= confidenceThreshold && (
-                      <div className="border border-[#E5E7EB] bg-white p-3 rounded-xl flex flex-col gap-1.5 shadow-sm">
-                        <div className="flex justify-between items-center border-b border-[#E5E7EB] pb-1">
-                          <span className="text-[9px] font-bold text-[#5B5FEF] font-mono tracking-wider uppercase">
-                            Grounding Reference Citation
-                          </span>
-                          <span className="text-[8px] text-[#374151] font-mono uppercase bg-zinc-100 px-1 py-0.5 rounded">
-                            {q.source.includes("Tavily") ? "Web API Search" : "Local Vector Store"}
-                          </span>
-                        </div>
-                        <div className="flex gap-2 items-start">
-                          <svg className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[11px] font-bold text-[#111827] font-mono truncate">{q.source}</p>
-                            <p className="text-[10px] text-[#374151] mt-0.5 leading-normal italic bg-zinc-50/50 p-1.5 rounded border border-zinc-100">
-                              &ldquo;{q.excerpt.slice(0, 140)}...&rdquo;
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+
                   </div>
                 ))}
               </div>

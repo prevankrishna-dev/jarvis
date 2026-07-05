@@ -1,36 +1,88 @@
-# Python virtual environment and cache
+# Python virtual environments
 .venv/
 venv/
 ENV/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+env/
+env.bak/
+venv.bak/
+bin/
+lib/
+lib64/
+include/
+share/
+pyvenv.cfg
 
-# Node dependencies and build files (Root & UI)
+# Python compilation and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Python packaging and builds
+build/
+dist/
+*.egg-info/
+.eggs/
+eggs/
+sdist/
+develop-eggs/
+downloads/
+parts/
+var/
+wheels/
+share/python-wheels/
+MANIFEST
+
+# Node dependencies and build output
 node_modules/
 jarvis-ui/node_modules/
 .next/
 jarvis-ui/.next/
 out/
 jarvis-ui/out/
-build/
-jarvis-ui/build/
-next-env.d.ts
-jarvis-ui/next-env.d.ts
 *.tsbuildinfo
 jarvis-ui/tsconfig.tsbuildinfo
+next-env.d.ts
+jarvis-ui/next-env.d.ts
 
-# Environment variables
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.backup
+.env.sample
 .env*
 jarvis-ui/.env*
 
-# OS/IDE metadata
-.DS_Store
+# IDE, Editors, and OS metadata
 .vscode/
 .idea/
+.vs/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+.DS_Store
 Thumbs.db
+ehthumbs.db
 
-# Local database and data files
+# Project-specific database and scratch files
 backend/chroma_db/
 backend/scratch/
+
