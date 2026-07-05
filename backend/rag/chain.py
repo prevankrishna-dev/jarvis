@@ -1,13 +1,13 @@
 import os
 from typing import Dict, Any, List
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 from rag.prompts import SYSTEM_PROMPT
 from rag.retriever import query_kb
 from rag.tavily_search import search_live
 
-def get_answer(query: str, business_id: str, threshold: float = 0.50) -> Dict[str, Any]:
+def get_answer(query: str, business_id: str, threshold: float = 0.50, history: List[Any] = None) -> Dict[str, Any]:
     """
     Orchestrates the hybrid RAG query pipeline:
     1. Retrieves context chunks from public_kb and private_kb (filtered by business_id).
@@ -16,14 +16,37 @@ def get_answer(query: str, business_id: str, threshold: float = 0.50) -> Dict[st
     4. Evaluates against the confidence threshold logic.
     5. Feeds context to Gemini 1.5 Flash to generate a grounded response.
     """
-    # 1. Retrieve chunks from public vector database
-    public_chunks = query_kb(collection_name="public_kb", query=query, top_k=3)
+    # 0. Query reformulation if history is present
+    search_query = query
+    if history:
+        history_text = "\n".join([f"{msg.role.capitalize()}: {msg.content}" for msg in history])
+        reformulation_prompt = (
+            "Given the following conversation history and a follow-up query, "
+            "rephrase the follow-up query to be a standalone query that has all the "
+            "necessary context (especially referring to the target business name/context from previous turns) "
+            "to search a database. Do NOT answer the query, just return the rephrased standalone query.\n\n"
+            f"Chat History:\n{history_text}\n\n"
+            f"Follow-up Query: {query}\n\n"
+            "Standalone Query:"
+        )
+        try:
+            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.0)
+            standalone_res = llm.invoke([HumanMessage(content=reformulation_prompt)])
+            standalone_content = standalone_res.content.strip()
+            if standalone_content:
+                search_query = standalone_content
+                print(f"Reformulated query from '{query}' to '{search_query}'")
+        except Exception as e:
+            print(f"Error during query reformulation: {e}")
 
-    # 2. Retrieve chunks from private vector database (scoped to business_id)
-    private_chunks = query_kb(collection_name="private_kb", query=query, top_k=3, business_id=business_id)
+    # 1. Retrieve chunks from public vector database using search_query
+    public_chunks = query_kb(collection_name="public_kb", query=search_query, top_k=3)
 
-    # 3. Retrieve live web results via Tavily
-    live_chunks = search_live(query=query, max_results=3)
+    # 2. Retrieve chunks from private vector database (scoped to business_id) using search_query
+    private_chunks = query_kb(collection_name="private_kb", query=search_query, top_k=3, business_id=business_id)
+
+    # 3. Retrieve live web results via Tavily using search_query
+    live_chunks = search_live(query=search_query, max_results=3)
 
     # 4. Merge all retrieved context chunks
     all_chunks = public_chunks + private_chunks + live_chunks
@@ -54,9 +77,15 @@ def get_answer(query: str, business_id: str, threshold: float = 0.50) -> Dict[st
     # Build system and human messages
     system_content = SYSTEM_PROMPT.format(context=context_text)
     messages = [
-        SystemMessage(content=system_content),
-        HumanMessage(content=query)
+        SystemMessage(content=system_content)
     ]
+    if history:
+        for msg in history:
+            if msg.role == "user":
+                messages.append(HumanMessage(content=msg.content))
+            else:
+                messages.append(AIMessage(content=msg.content))
+    messages.append(HumanMessage(content=query))
 
     try:
         # Initialize Gemini 2.5 Flash client

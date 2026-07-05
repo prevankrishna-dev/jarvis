@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { sendChatQuery, uploadDocument, Source, getFiles, FolderItem } from "@/lib/api";
+import { sendChatQuery, uploadDocument, Source, getFiles, FolderItem, HistoryMessage } from "@/lib/api";
 
 const SplitText = dynamic(() => import("./SplitText"), { ssr: false });
 
@@ -386,8 +386,13 @@ Rules:
     setInputVal("");
     setIsTyping(true);
  
+    const historyPayload: HistoryMessage[] = messages.slice(-10).map((msg) => ({
+      role: msg.sender === "user" ? "user" : "assistant",
+      content: msg.text
+    }));
+
     try {
-      const response = await sendChatQuery(text, "default_business", threshold);
+      const response = await sendChatQuery(text, "default_business", threshold, historyPayload);
       const isRefusal = response.confidence === "low";
       const jarvisMsg: Message = {
         sender: "jarvis",
@@ -531,21 +536,7 @@ Rules:
           </div>
         </div>
 
-        {/* API status row */}
-        <div className="hidden lg:flex items-center gap-4 text-xs font-mono">
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Gemini Flash
-          </div>
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Tavily Web
-          </div>
-          <div className="flex items-center gap-1.5 bg-zinc-900 border border-white/5 px-2.5 py-1 rounded-md text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            ChromaDB
-          </div>
-        </div>
+
 
         <div className="flex items-center gap-2">
           <button

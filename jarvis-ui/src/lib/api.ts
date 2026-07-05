@@ -109,13 +109,19 @@ const MOCK_ANSWERS: Record<string, ChatResponse> = {
   }
 };
 
+export interface HistoryMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 /**
  * Sends a chat query to the backend or simulates it locally.
  */
 export async function sendChatQuery(
   query: string,
   businessId: string,
-  threshold: number = 0.5
+  threshold: number = 0.5,
+  history: HistoryMessage[] = []
 ): Promise<ChatResponse> {
   if (USE_MOCK) {
     // Simulate ~1s network latency
@@ -173,7 +179,8 @@ export async function sendChatQuery(
     body: JSON.stringify({
       query,
       business_id: businessId,
-      threshold
+      threshold,
+      history
     })
   });
 

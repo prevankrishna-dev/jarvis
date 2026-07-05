@@ -42,7 +42,8 @@ async def chat_query(request: ChatRequest):
         ans = get_answer(
             query=request.query,
             business_id=request.business_id,
-            threshold=request.threshold
+            threshold=request.threshold,
+            history=request.history
         )
         return ans
     except Exception as e:
