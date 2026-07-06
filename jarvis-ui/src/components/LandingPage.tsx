@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import BorderGlow from "./BorderGlow";
 
 interface LandingPageProps {
   onGoToLogin: () => void;
@@ -401,7 +402,18 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
 
         {/* Interactive RAG Simulation */}
         <section id="demo" className="w-full max-w-3xl mx-auto flex flex-col gap-6 animate-fade-in-up animation-delay-300">
-          <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl relative border border-[#E5E7EB]">
+          <BorderGlow
+            edgeSensitivity={0}
+            glowColor="239 84 65"
+            backgroundColor="var(--card-bg)"
+            borderRadius={16}
+            glowRadius={40}
+            glowIntensity={1.0}
+            coneSpread={25}
+            animated={true}
+            colors={['#5B5FEF', '#8B5CF6', '#38bdf8']}
+            className="glass-panel w-full shadow-2xl relative border border-[#E5E7EB]"
+          >
             {/* Window bar */}
             <div className="bg-[#E6E9F2] border-b border-[#E5E7EB] px-4 py-3.5 flex justify-between items-center">
               <div className="flex items-center gap-2">
@@ -723,7 +735,7 @@ export default function LandingPage({ onGoToLogin, onGoToConsole, isLoggedIn }: 
                 ))}
               </div>
             )}
-          </div>
+          </BorderGlow>
         </section>
 
       </main>
